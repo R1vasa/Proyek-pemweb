@@ -28,6 +28,15 @@
             @endauth
         </div>
     </nav>
+
+    <aside>
+        <ul>
+            <li>Home</li>
+            <li>Bookmark</li>
+            <li></li>
+            <li></li>
+        </ul>
+    </aside>
 </body>
 
 </html>
