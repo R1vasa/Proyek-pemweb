@@ -1,53 +1,98 @@
 <!DOCTYPE html>
 <html lang="en" class="h-full">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
+    @vite('resources/js/app.js')
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    {{-- font --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Darumadrop+One&family=Lexend+Deca:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <style>
+        .latar {
+            background-image: url('background.jpg');
+        }
+    </style>
     <title>Login</title>
 </head>
-<body class="h-full">
-  <div class="flex min-h-full flex-col justify-center items-center px-6 py-12 lg:px-8">
-    <div class="md:border-1 md:w-[420px] p-4 rounded-xl">
-      <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-        <img class="mx-auto h-10 w-auto mb-4" src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company">
-        <h2 class="text-center text-2xl/9 font-bold tracking-tight text-gray-900">Sign in to your account</h2>
-      </div>
-  
-      <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form class="space-y-6" action="#" method="POST">
-          <div>
-            <label for="email" class="block text-sm/6 font-medium text-gray-900">Email/Username</label>
-            <div class="mt-2">
-              <input type="email" name="email" id="email" autocomplete="email" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
-            </div>
-          </div>
-  
-          <div>
-            <div class="flex items-center justify-between">
-              <label for="password" class="block text-sm/6 font-medium text-gray-900">Password</label>
-            </div>
-          
-            <div class="mt-2">
-              <input type="password" name="password" id="password" autocomplete="current-password" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
-            </div>
-          </div>
 
-          <div>
-            <label for="checkbox"><input type="checkbox" name="checkbox" class="m-1">Remember me</label>
-          </div>
-  
-          <div>
-            <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
-          </div>
-        </form>
-  
-          <p class="mt-10 text-center text-sm/6 text-gray-500">
-          Don't have an account
-            <a href="/register" class="font-semibold text-indigo-600 hover:text-indigo-500">Sign up here</a>
-        </p>
-      </div>
+<body class="h-full">
+    <div class="flex min-h-full flex-col justify-center items-center bg-cover bg-center bg-no-repeat latar">
+        <div class="sm:w-[420px] w-full p-4 rounded-4xl bg-white">
+            <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+                <h2 class="text-center font-bold tracking-tight text-gray-900 font-[Darumadrop_One] text-5xl">
+                    Login
+                </h2>
+                @if (session('success'))
+                    <div class="bg-green-100 border border-green-400 text-green-600 px-4 py-3 rounded relative my-4 w-3/4 mx-auto"
+                        role="alert">
+                        <strong class="font-bold">Data berhasil ditambahkan! </strong>
+                        <span class="block sm:inline">{{ session('success') }}</span>
+                    </div>
+                @endif
+                @if ($errors->any())
+                    <div
+                        class="bg-red-100 border border-red-400 text-red-600 px-4 py-3 rounded relative my-4 w-3/4 mx-auto">
+                        @foreach ($errors->all() as $items)
+                            <p class="text-center">{{ $items }}</p>
+                        @endforeach
+                    </div>
+                @endif
+            </div>
+
+            <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+                <form class="space-y-6" action="" method="POST" id="loginForm">
+                    @csrf
+                    <div class="px-10 sm:px-16">
+                        <label for="email" class="block text-sm/6 font-medium text-gray-900">Email/Username</label>
+                        <div class="mt-2 flex items-center gap-2 border-b border-gray-300">
+                            <i class='bx bx-user text-xl text-gray-500'></i>
+                            <input type="text" name="email" id="email" value="{{ old('email') }}"
+                                placeholder="Type your Username"
+                                class="w-full sm:text-base text-sm focus:outline-none py-2">
+                        </div>
+                    </div>
+
+                    <div class="px-10 sm:px-16 mt-4">
+                        <label for="password" class="block text-sm/6 font-medium text-gray-900">Password</label>
+                        <div class="mt-2 flex items-center gap-2 border-b border-gray-300">
+                            <i class='bx bx-lock-alt text-xl text-gray-500'></i>
+                            <input type="password" name="password" id="password" autocomplete="current-password"
+                                placeholder="Type your Password"
+                                class="w-full sm:text-base text-sm focus:outline-none py-2">
+                        </div>
+                    </div>
+
+                    <div class="flex justify-center">
+                        <button type="submit"
+                            class="opacity-50 w-1/3 rounded-md bg-yellow-300 px-3 py-1.5 text-sm font-semibold text-black shadow"
+                            id="loginBtn">
+                            Login
+                        </button>
+                    </div>
+                </form>
+
+                <div>
+                    <p class="text-center text-[13px]">Or Sign in Using</p>
+                    <div class="flex justify-center text-3xl gap-2">
+                        <i class='bx bxl-google cursor-pointer'></i>
+                        <i class='bx bxl-facebook-circle cursor-pointer'></i>
+                        <i class='bx bxl-twitch cursor-pointer q'></i>
+                    </div>
+                </div>
+
+                <p class="mt-10 text-center text-sm/6 text-gray-500">
+                    Don't have an account
+                    <a href="/register" class="font-semibold text-indigo-600 hover:text-indigo-500">Sign up here</a>
+                </p>
+            </div>
+        </div>
     </div>
-  </div>
 </body>
+
 </html>

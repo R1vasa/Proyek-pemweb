@@ -51,7 +51,7 @@
                 <li><a href="/" class="block text-white p-3 border-b-1">Home</a></li>
                 <li><a href="#" class="block text-white p-3 border-b-1">Bookmark</a></li>
                 <li><a href="#" class="block text-white p-3 border-b-1">Pengaturan</a></li>
-                <li><a href="#" class="block text-white p-3 border-b-1">Logout</a></li>
+                <li><a href="/logout" class="block text-white p-3 border-b-1">Logout</a></li>
             </ul>
         </aside>
 
