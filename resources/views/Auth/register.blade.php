@@ -17,7 +17,7 @@
             background-image: url('background.jpg');
         }
     </style>
-    <title>Login</title>
+    <title>Register</title>
 </head>
 
 <body class="h-full">
@@ -38,7 +38,7 @@
                         <label for="email" class="block text-sm/6 font-medium text-gray-900">Email</label>
                         <div class="mt-2 flex items-center gap-2 border-b border-gray-300">
                             <i class='bx bx-envelope text-xl text-gray-500'></i>
-                            <input type="email" name="email" autocomplete="email" placeholder="Type your Username"
+                            <input type="email" name="email" autocomplete="email" placeholder="Type your Email"
                                 class="w-full sm:text-base text-sm focus:outline-none">
                         </div>
                     </div>
@@ -47,7 +47,7 @@
                         <label for="username" class="block text-sm/6 font-medium text-gray-900">Username</label>
                         <div class="mt-2 flex items-center gap-2 border-b border-gray-300">
                             <i class='bx bx-user text-xl text-gray-500'></i>
-                            <input type="text" name="email" id="email" value="{{ old('email') }}"
+                            <input type="text" name="username" id="username" value="{{ old('username') }}"
                                 placeholder="Type your Username"
                                 class="w-full sm:text-base text-sm focus:outline-none py-2">
                         </div>
