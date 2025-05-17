@@ -13,16 +13,12 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Darumadrop+One&family=Lexend+Deca:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
-    <style>
-        .latar {
-            background-image: url('background.jpg');
-        }
-    </style>
     <title>Login</title>
 </head>
 
 <body class="h-full">
-    <div class="flex min-h-full flex-col justify-center items-center bg-cover bg-center bg-no-repeat latar">
+    <div
+        class="flex min-h-full flex-col justify-center items-center bg-cover bg-center bg-no-repeat bg-[url(/public/images/background.jpg)]">
         <div class="sm:w-[420px] w-full p-4 rounded-4xl bg-white">
             <div class="sm:mx-auto sm:w-full sm:max-w-sm">
                 <h2 class="text-center font-bold tracking-tight text-gray-900 font-[Darumadrop_One] text-5xl">
