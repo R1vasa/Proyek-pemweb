@@ -12,18 +12,13 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Darumadrop+One&family=Lexend+Deca:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
-    <style>
-        .latar {
-            background-image: url('background.jpg');
-        }
-    </style>
     <title>Register</title>
 </head>
 
 <body class="h-full">
     <div
-        class="flex min-h-full flex-col justify-center items-center px-6 py-12 lg:px-8 bg-cover bg-center bg-no-repeat latar">
-        <div class="md:border-1 md:w-[420px] p-4 rounded-4xl bg-white">
+        class="flex min-h-full flex-col justify-center items-center bg-cover bg-center bg-no-repeat bg-[url(/public/images/background.jpg)]">
+        <div class="sm:w-[420px] w-full p-4 rounded-4xl bg-white">
             <div class="sm:mx-auto sm:w-full sm:max-w-sm">
                 <h2 class="text-center font-bold tracking-tight text-gray-900 font-[Darumadrop_One] text-5xl">
                     Register
@@ -38,22 +33,13 @@
                         <label for="email" class="block text-sm/6 font-medium text-gray-900">Email</label>
                         <div class="mt-2 flex items-center gap-2 border-b border-gray-300">
                             <i class='bx bx-envelope text-xl text-gray-500'></i>
-                            <input type="email" name="email" autocomplete="email" placeholder="Type your Email"
-                                class="w-full sm:text-base text-sm focus:outline-none">
+                            <input type="email" name="email" id="email" autocomplete="email"
+                                placeholder="Type your Email" class="w-full sm:text-base text-sm focus:outline-none">
                         </div>
                     </div>
 
-                    <div class="px-16">
-                        <label for="username" class="block text-sm/6 font-medium text-gray-900">Username</label>
-                        <div class="mt-2 flex items-center gap-2 border-b border-gray-300">
-                            <i class='bx bx-user text-xl text-gray-500'></i>
-                            <input type="text" name="username" id="username" value="{{ old('username') }}"
-                                placeholder="Type your Username"
-                                class="w-full sm:text-base text-sm focus:outline-none py-2">
-                        </div>
-                    </div>
 
-                    <div class="px-16">
+                    <div class="px-10 sm:px-16">
                         <label for="password" class="block text-sm/6 font-medium text-gray-900">Password</label>
                         <div class="mt-2 flex items-center gap-2 border-b border-gray-300">
                             <i class='bx bx-lock-alt text-xl text-gray-500'></i>
@@ -74,7 +60,7 @@
 
                 <p class="mt-10 text-center text-sm/6 text-gray-500">
                     Already have an account
-                    <a href="/login" class="font-semibold text-indigo-600 hover:text-indigo-500">Sign up here</a>
+                    <a href="/login" class="font-semibold text-indigo-600 hover:text-indigo-500">Sign in here</a>
                 </p>
             </div>
         </div>
