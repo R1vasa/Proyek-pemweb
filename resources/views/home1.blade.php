@@ -12,7 +12,7 @@
 <body class="bg-gray-100 flex min-h-screen">
     <div class="sidebar flex flex-col w-64 bg-white shadow-lg p-4 min-h-screen sticky">
         <div class="sidebarHeader flex items-center mb-8">
-            <img src="Quack.jpg" alt="Logo" class="w-12 h-12 rounded-full mr-3" />
+            <img src="img/Quack.jpg" alt="Logo" class="w-12 h-12 rounded-full mr-3" />
             <span class="sidebarTitle text-2xl font-bold font-darumadrop">Quack</span>
         </div>
         <div class="sidebarOption flex items-center p-3 rounded-lg hover:bg-gray-200 mb-2 cursor-pointer">
@@ -60,7 +60,7 @@
                     post</span>
             </div>
             <div class="flex items-start gap-4 mt-0">
-                <img src="profile.png" alt="Profile" class="w-[72px] h-[72px] rounded-full object-cover shrink-0" />
+                <img src="img/profile.png" alt="Profile" class="w-[72px] h-[72px] rounded-full object-cover shrink-0" />
                 <input type="text"
                     class="flex-1 border-none outline-none rounded-[24px] px-5 py-[18px] text-[1.1rem] bg-white mr-3 font-[Poppins,Arial,sans-serif] self-center"
                     placeholder="Quack!!!" />
@@ -75,7 +75,7 @@
             <div class="flex justify-between">
                 <div class="flex flex-row">
                     <div>
-                        <img src="profile.png" alt="" class="max-w-[40px] max-h-[40px]">
+                        <img src="img/profile.png" alt="" class="max-w-[40px] max-h-[40px]">
                     </div>
                     <div class="px-4">
                         <h3 class="font-bold">Roux</h3>
@@ -87,11 +87,11 @@
                 <p class="text-xl">•••</p>
             </div>
             <div class="post_body">
-                <img src="car.jpg" alt="" class="w-full max-w-[400px] block mx-auto mt-6 rounded-lg" />
+                <img src="img/car.jpg" alt="" class="w-full max-w-[400px] block mx-auto mt-6 rounded-lg" />
             </div>
             <div class="post_footer flex items-center justify-between mt-4 px-2">
                 <div class="post_footer_left flex items-center gap-1.5">
-                    <img src="QuackIcon.png" alt="Custom Icon" class="w-7 h-7 align-middle cursor-pointer" />
+                    <img src="img/QuackIcon.png" alt="Custom Icon" class="w-7 h-7 align-middle cursor-pointer" />
                     <span class="text-gray-500 text-[18px] font-medium ml-1">22.5K</span>
                 </div>
                 <div class="post_footer_right flex items-center gap-4.5">
@@ -106,7 +106,7 @@
             <div class="flex justify-between">
                 <div class="flex flex-row">
                     <div>
-                        <img src="profile.png" alt="" class="max-w-[40px] max-h-[40px]">
+                        <img src="img/profile.png" alt="" class="max-w-[40px] max-h-[40px]">
                     </div>
                     <div class="px-4">
                         <h3 class="font-bold">Roux</h3>
@@ -118,11 +118,11 @@
                 <p class="text-xl">•••</p>
             </div>
             <div class="post_body">
-                <img src="car.jpg" alt="" class="w-full max-w-[400px] block mx-auto mt-6 rounded-lg" />
+                <img src="img/car.jpg" alt="" class="w-full max-w-[400px] block mx-auto mt-6 rounded-lg" />
             </div>
             <div class="post_footer flex items-center justify-between mt-4 px-2">
                 <div class="post_footer_left flex items-center gap-1.5">
-                    <img src="QuackIcon.png" alt="Custom Icon" class="w-7 h-7 align-middle cursor-pointer" />
+                    <img src="img/QuackIcon.png" alt="Custom Icon" class="w-7 h-7 align-middle cursor-pointer" />
                     <span class="text-gray-500 text-[18px] font-medium ml-1">22.5K</span>
                 </div>
                 <div class="post_footer_right flex items-center gap-4.5">
@@ -144,15 +144,15 @@
         <div class="bg-white rounded-t shadow p-6 border border-gray-200 mt-10">
             <h2 class="text-base font-semibold mb-4 font-poppins">Friends you might know</h2>
             <div class="flex items-center gap-3 mb-4">
-                <img src="profile.png" alt="Zephyx2606" class="w-10 h-10 rounded-full object-cover" />
+                <img src="img/profile.png" alt="Zephyx2606" class="w-10 h-10 rounded-full object-cover" />
                 <span class="font-poppins text-base font-medium text-gray-900">Zephyx2606</span>
             </div>
             <div class="flex items-center gap-3 mb-4">
-                <img src="profile.png" alt="Savr" class="w-10 h-10 rounded-full object-cover" />
+                <img src="img/profile.png" alt="Savr" class="w-10 h-10 rounded-full object-cover" />
                 <span class="font-poppins text-base font-medium text-gray-900">Savr</span>
             </div>
             <div class="flex items-center gap-3">
-                <img src="profile.png" alt="Banzaimoo" class="w-10 h-10 rounded-full object-cover" />
+                <img src="img/profile.png" alt="Banzaimoo" class="w-10 h-10 rounded-full object-cover" />
                 <span class="font-poppins text-base font-medium text-gray-900">Banzaimoo</span>
             </div>
         </div>
