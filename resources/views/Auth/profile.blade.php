@@ -31,7 +31,7 @@
 
                     <div>
                         <img src="/images/default.png" id="preview" alt=""
-                            class="mx-auto rounded-full object-cover" style="width: 120px; height: 120px;">>
+                            class="mx-auto rounded-full object-cover" style="width: 120px; height: 120px;">
                         <div class="flex justify-center mt-5">
                             <label for="profile"
                                 class="cursor-pointer inline-block bg-yellow-300 hover:bg-yellow-400 text-black text-sm font-semibold py-2 px-4 rounded-3xl">
