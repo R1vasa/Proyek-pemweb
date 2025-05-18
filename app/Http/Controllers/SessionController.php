@@ -6,77 +6,107 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class SessionController extends Controller
 {
-    function index(){
+    public function index()
+    {
         return view('Auth/login');
     }
 
-    function login(Request $request){
+    public function login(Request $request)
+    {
         $request->validate([
-            'email'=>'required',
-            'password'=>'required',
-        ],
-        [
-            'email.required'=>'email wajib diisi',
-            'password.required'=>'password wajib diisi',
-        ]
-        );
+            'email' => 'required',
+            'password' => 'required',
+        ], [
+            'email.required' => 'Email wajib diisi',
+            'password.required' => 'Password wajib diisi',
+        ]);
 
         $loginField = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
-        $infoLogin = [
+        $credentials = [
             $loginField => $request->email,
             'password' => $request->password,
         ];
 
-        if (Auth::attempt($infoLogin)) {
-            if (Auth::user()->role == 'user') {
-                return redirect('home');
-            } elseif (Auth::user()->role == 'admin'){
-                return redirect('admin');
-            }
+        if (Auth::attempt($credentials)) {
+            return Auth::user()->role === 'admin' ? redirect('admin') : redirect('home');
         } else {
-            return redirect()->back()->withErrors('Password dan Username salah')->withInput();
+            return redirect()->back()->withErrors('Email/Username atau Password salah')->withInput();
         }
     }
 
-    function logout(){
+    public function logout()
+    {
         Auth::logout();
         return redirect('login');
     }
 
-    function register(){
+    public function register()
+    {
         return view('Auth/register');
     }
 
-    function create(Request $request){
+    public function create(Request $request)
+    {
         $request->validate([
-            'username'=>'required|unique:users',
-            'email'=>'required|email|unique:users',
-            'password'=>'required|min:6',
-        ],
-        [
-            'username.required'=>'Username wajib diisi',
-            'username.unique'=>'Username sudah digunakan user lain',
-            'email.required'=>'Email wajib diisi',
-            'email.email'=>'Masukkan email yang valid',
-            'email.unique'=>'Email sudah terdaftar',
-            'password.required'=>'Password wajib diisi',
-            'password.min'=>'Password minimal 6 huruf',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:6',
+        ], [
+            'email.required' => 'Email wajib diisi',
+            'email.email' => 'Masukkan email yang valid',
+            'email.unique' => 'Email sudah terdaftar',
+            'password.required' => 'Password wajib diisi',
+            'password.min' => 'Password minimal 6 karakter',
+        ]);
 
-        ]
-    );
+        $user = User::create([
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'profile' => 'images/default.png',
+        ]);
 
-    $data = [
-        'username'=>$request->username,
-        'email'=>$request->email,
-        'password'=>Hash::make($request->password),
-    ];
-    User::create($data);
+        Auth::login($user);
+        return redirect('/register/profile');
+    }
 
-    return redirect('/login')->with('success', 'Registrasi berhasil, silakan login.');
+    public function showProfileForm()
+    {
+        return view('Auth/profile');
+    }
 
+    public function store(Request $request)
+    {
+        $user = User::find(Auth::id());
+        if (!$user) {
+            return redirect('/login')->withErrors('Silakan login terlebih dahulu.');
+        }
+
+        $request->validate([
+            'username' => 'required|unique:users,username,' . $user->id,
+            'profile' => 'nullable|image|max:2048',
+        ], [
+            'username.required' => 'Username wajib diisi',
+            'username.unique' => 'Username sudah digunakan',
+            'profile.image' => 'File harus berupa gambar',
+            'profile.max' => 'Ukuran gambar maksimal 2MB',
+        ]);
+
+        // Proses upload gambar jika ada
+        if ($request->hasFile('profile')) {
+            if ($user->profile && Storage::disk('public')->exists($user->profile) && $user->profile !== 'profiles/default.png') {
+                Storage::disk('public')->delete($user->profile);
+            }
+            $path = $request->file('profile')->store('profiles', 'public');
+            $user->profile = $path;
+        }
+
+        $user->username = $request->username;
+        $user->save();
+
+        return redirect('/home')->with('success', 'Profil berhasil diperbarui!');
     }
 }
