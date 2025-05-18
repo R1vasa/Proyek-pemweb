@@ -1,6 +1,10 @@
 {
+  "public/images/background.jpg": {
+    "file": "assets/background-CYC32Pe7.jpg",
+    "src": "public/images/background.jpg"
+  },
   "resources/css/app.css": {
-    "file": "assets/app-D07o7MIY.css",
+    "file": "assets/app-COoiKZms.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
