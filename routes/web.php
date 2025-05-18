@@ -17,6 +17,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/home', [UsersController::class, 'index'])->middleware(UserAkses::class . ':user');
     Route::get('/admin', [UsersController::class, 'index'])->middleware(UserAkses::class . ':admin');
     Route::get('/logout', [SessionController::class, 'logout']);
+    Route::get('/register/profile', [SessionController::class, 'showProfileForm']);
+    Route::post('/register/profile/store', [SessionController::class, 'store']);
 });
 
 
@@ -26,7 +28,6 @@ Route::get('/', function () {
     }
     return redirect('/login');
 });
-
 Route::get('/home1', function () {
     return view('home1');
 });

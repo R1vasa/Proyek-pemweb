@@ -30,8 +30,8 @@
 
             @auth
                 <div class="flex items-center space-x-3">
-                    <img class="h-[35px] w-[35px] rounded-full border"
-                        src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}" alt="Profile">
+                    <img class="h-[35px] w-[35px] rounded-full border" src="{{ asset('storage/' . Auth::user()->profile) }}"
+                        alt="Profile">
                     <span class="hidden md:inline">{{ Auth::user()->name }}</span>
                 </div>
             @endauth
