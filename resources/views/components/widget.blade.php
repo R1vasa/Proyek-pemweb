@@ -1,11 +1,12 @@
 <?php
-    use App\Http\Controllers\UsersController;
-    $userModel = new UsersController();
-    $userData = $userModel->get_user();
+use App\Http\Controllers\UsersController;
+$userModel = new UsersController();
+$userData = $userModel->get_user();
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,6 +20,7 @@
     @vite('resources/css/app.css')
     <title>Document</title>
 </head>
+
 <body>
     <div class="widgets w-80 flex flex-col gap-6 overflow-y-auto h-screen no-scrollbar">
         <div class="bg-white rounded-b-md shadow p-6 border border-gray-200 mb-5">
@@ -27,14 +29,16 @@
             <img src="img/BomCroc.jpg" alt="Topic Image" class="w-full rounded-lg mt-2 mb-2 object-cover" />
         </div>
         <div class="bg-white rounded-t shadow p-6 border border-gray-200">
-            
+
             @foreach ($userData as $user)
                 <div class="flex items-center gap-3 mb-4">
-                    <img src="img/profile.png" alt="Zephyx2606" class="w-10 h-10 rounded-full object-cover" />
-                    <span class="font-poppins text-base font-medium text-gray-900">{{$user->username}}</span>
+                    <img src="{{ asset('storage/' . $user->profile) }}" alt="Zephyx2606"
+                        class="w-10 h-10 rounded-full object-cover" />
+                    <span class="font-poppins text-base font-medium text-gray-900">{{ $user->username }}</span>
                 </div>
             @endforeach
-        </div> 
+        </div>
     </div>
 </body>
+
 </html>
