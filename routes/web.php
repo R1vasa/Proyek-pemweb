@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\UsersController;
 use App\Http\Middleware\UserAkses;
@@ -28,6 +29,8 @@ Route::get('/', function () {
     }
     return redirect('/login');
 });
-Route::get('/home1', function () {
-    return view('home1');
+Route::get('/profile', function () {
+    return view('pages.profile');
 });
+
+Route::get('/profile', [ProfileController::class, 'index'])->middleware('auth');
