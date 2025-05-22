@@ -33,7 +33,17 @@ class SessionController extends Controller
         ];
 
         if (Auth::attempt($credentials)) {
-            return Auth::user()->role === 'admin' ? redirect('admin') : redirect('home');
+            // Check if the user is banned
+            $user = Auth::user();
+            if ($user->role === 'banned') {
+                Auth::logout();
+                return redirect()->route('login')->withErrors([
+                    'email' => 'Akun anda telah dibanned.',
+                ]);
+            }
+
+            // Redirect based on user role
+            return $user->role === 'admin' ? redirect('admin') : redirect('home');
         } else {
             return redirect()->back()->withErrors('Email/Username atau Password salah')->withInput();
         }
