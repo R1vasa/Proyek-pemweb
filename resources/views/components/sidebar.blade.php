@@ -24,7 +24,11 @@
             <span class="mr-3 flex items-center justify-center w-8 h-8 rounded-full bg-yellow-300">
                 <span class="material-symbols-outlined text-black">home</span>
             </span>
-            <h2 class="text-md font-semibold font-poppins text-black">Home</h2>
+            @if ( Auth::check() && Auth::user()->role === 'admin' )
+                <a href="/admin"><h2 class="text-md font-semibold font-poppins text-black">Home</h2></a>
+            @else
+                <a href="/home"><h2 class="text-md font-semibold font-poppins text-black">Home</h2></a>
+            @endif
         </div>
 
         <div class="flex items-center p-3 rounded-lg cursor-pointer">
@@ -59,7 +63,7 @@
                 <span class="mr-3 flex items-center justify-center w-8 h-8 rounded-full bg-yellow-300">
                     <span class="material-symbols-outlined text-black">person</span>
                 </span>
-                <h2 class="text-md font-semibold font-poppins text-black">Admin Dashboard</h2>
+                <a href="/admin/dashboard"><h2 class="text-md font-semibold font-poppins text-black">Admin Control</h2></a>
             </div>
         @endif
 
