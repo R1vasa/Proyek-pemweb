@@ -19,8 +19,6 @@ return new class extends Migration
             $table->string('password');
             $table->enum('role', ['admin', 'user', 'banned'])->default('user');
             $table->string('profile')->default('profiles/default.png');
-            $table->enum('role', ['admin', 'user'])->default('user');
-            $table->string('profile')->default('profiles/default.png');
             $table->rememberToken();
             $table->timestamps();
         });
