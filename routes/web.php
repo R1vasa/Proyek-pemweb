@@ -8,6 +8,7 @@ use App\Http\Middleware\UserAkses;
 use App\Http\Middleware\CheckProfileComplete;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\PostsController;
 
 Route::middleware(['guest'])->group(function () {
     Route::get('/login', [SessionController::class, 'index'])->name('login');
@@ -26,6 +27,11 @@ Route::middleware(['auth', CheckProfileComplete::class])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/register/profile', [SessionController::class, 'showProfileForm']);
     Route::post('/register/profile/store', [SessionController::class, 'store']);
+    Route::post('/posts/{id}/like', [PostsController::class, 'like'])->name('posts.like');
+    Route::post('/posts', [PostsController::class, 'store'])->name('posts.store');
+    Route::get('/posts', [PostsController::class, 'index'])->name('posts.index');
+    Route::put('/posts/{id}', [PostsController::class, 'update'])->name('posts.update');
+    Route::delete('/posts/{id}', [PostsController::class, 'destroy'])->name('posts.destroy');
 });
 
 

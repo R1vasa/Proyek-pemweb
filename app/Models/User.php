@@ -47,8 +47,5 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    public function isBanned()
-    {
-        return $this->role === 'banned';
     }
 }
