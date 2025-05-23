@@ -10,8 +10,9 @@ class AdminController extends Controller
     public function index()
     {
         $user = User::all(); 
-       
-        return view('pages/AdminDashboard', compact('user')); // Mengirim data ke view 'index'
+        $totalUsers = User::count();
+        return view('pages/AdminDashboard', compact('user', 'totalUsers'));
+        // return view('Adminashboard', compact('users', 'totalUsers'));
     }
 
     public function destroy($id)

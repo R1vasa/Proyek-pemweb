@@ -3,6 +3,7 @@
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Middleware\UserAkses;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -28,6 +29,8 @@ Route::post('/users/{id}/ban', [UsersController::class, 'ban'])->name('users.ban
 Route::post('/user/unban/{id}', [UsersController::class, 'unban'])->name('users.unban');
 Route::post('/user/make-admin/{id}', [UsersController::class, 'makeAdmin'])->name('users.makeAdmin');
 Route::delete('/users/{id}', [AdminController::class, 'destroy'])->name('users.destroy');
+
+Route::get('admin/dashboard', [AdminController::class, 'index'])->name('dashboard');
 
 
 Route::get('/', function () {
