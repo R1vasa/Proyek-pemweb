@@ -76,7 +76,7 @@ class SessionController extends Controller
         $user = User::create([
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'profile' => 'images/default.png',
+            'profile' => 'profiles/default.png',
         ]);
 
         Auth::login($user);
@@ -85,6 +85,12 @@ class SessionController extends Controller
 
     public function showProfileForm()
     {
+        $user = Auth::user();
+
+    if ($user->username) {
+        return redirect('/home');
+    }
+
         return view('Auth/profile');
     }
 

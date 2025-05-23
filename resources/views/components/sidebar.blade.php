@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,10 +14,11 @@
     @vite('resources/css/app.css')
     <title>Document</title>
 </head>
+
 <body>
     <div class="flex flex-col w-64 bg-white shadow-lg p-4 min-h-screen sticky border-r border-gray-300">
         <div class="flex items-center mb-4">
-            <img src="img/Quack.jpg" alt="Logo" class="w-12 h-12 rounded-full mr-3" />
+            <img src="{{ asset('img/Quack.jpg') }}" alt="Logo" class="w-12 h-12 rounded-full mr-3" />
             <span class="text-2xl font-bold font-[Darumadrop_One]">Quack</span>
         </div>
 
@@ -24,10 +26,14 @@
             <span class="mr-3 flex items-center justify-center w-8 h-8 rounded-full bg-yellow-300">
                 <span class="material-symbols-outlined text-black">home</span>
             </span>
-            @if ( Auth::check() && Auth::user()->role === 'admin' )
-                <a href="/admin"><h2 class="text-md font-semibold font-poppins text-black">Home</h2></a>
+            @if (Auth::check() && Auth::user()->role === 'admin')
+                <a href="/admin">
+                    <h2 class="text-md font-semibold font-poppins text-black">Home</h2>
+                </a>
             @else
-                <a href="/home"><h2 class="text-md font-semibold font-poppins text-black">Home</h2></a>
+                <a href="/home">
+                    <h2 class="text-md font-semibold font-poppins text-black">Home</h2>
+                </a>
             @endif
         </div>
 
@@ -63,7 +69,9 @@
                 <span class="mr-3 flex items-center justify-center w-8 h-8 rounded-full bg-yellow-300">
                     <span class="material-symbols-outlined text-black">person</span>
                 </span>
-                <a href="/admin/dashboard"><h2 class="text-md font-semibold font-poppins text-black">Admin Control</h2></a>
+                <a href="/admin/dashboard">
+                    <h2 class="text-md font-semibold font-poppins text-black">Admin Control</h2>
+                </a>
             </div>
         @endif
 
@@ -72,4 +80,5 @@
             out</a>
     </div>
 </body>
+
 </html>

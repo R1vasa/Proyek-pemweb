@@ -92,6 +92,11 @@ $postData = $PostModel->get_posts();
     {{-- sidebar --}}
     {{-- widget --}}
     <x-widget />
+    @if (session('success'))
+        <script>
+            localStorage.removeItem("previewProfileImage");
+        </script>
+    @endif
 </body>
 
 </html>

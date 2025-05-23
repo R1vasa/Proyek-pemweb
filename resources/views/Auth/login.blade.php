@@ -31,14 +31,7 @@
                         <span class="block sm:inline">{{ session('success') }}</span>
                     </div>
                 @endif
-                @if ($errors->any())
-                    <div
-                        class="bg-red-100 border border-red-400 text-red-600 px-4 py-3 rounded relative my-4 w-3/4 mx-auto">
-                        @foreach ($errors->all() as $items)
-                            <p class="text-center">{{ $items }}</p>
-                        @endforeach
-                    </div>
-                @endif
+
             </div>
 
             <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -80,6 +73,13 @@
                         <i class='bx bxl-facebook-circle cursor-pointer'></i>
                         <i class='bx bxl-twitch cursor-pointer q'></i>
                     </div>
+                    @if ($errors->any())
+                        <div class="text-red-600 pt-2 rounded relative w-3/4 mx-auto">
+                            @foreach ($errors->all() as $items)
+                                <p class="text-center">{{ $items }}</p>
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
 
                 <p class="mt-10 text-center text-sm/6 text-gray-500">
