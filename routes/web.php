@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\PostsController;
+use App\Http\Controllers\ProfilePostController;
 use App\Http\Middleware\UserAkses;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -20,6 +22,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/logout', [SessionController::class, 'logout']);
     Route::get('/register/profile', [SessionController::class, 'showProfileForm']);
     Route::post('/register/profile/store', [SessionController::class, 'store']);
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
 });
 
 
@@ -29,8 +32,8 @@ Route::get('/', function () {
     }
     return redirect('/login');
 });
-Route::get('/profile', function () {
-    return view('pages.profile');
-});
 
-Route::get('/profile', [ProfileController::class, 'index'])->middleware('auth');
+Route::middleware(['auth'])->group(function () {
+    Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile/delete', [ProfileController::class, 'destroy'])->name('profile.delete');
+});
