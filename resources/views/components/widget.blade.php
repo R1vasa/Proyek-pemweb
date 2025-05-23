@@ -29,10 +29,10 @@ $userData = $userModel->get_user();
             <img src="img/BomCroc.jpg" alt="Topic Image" class="w-full rounded-lg mt-2 mb-2 object-cover" />
         </div>
         <div class="bg-white rounded-t shadow p-6 border border-gray-200">
-
-            @foreach ($userData as $user)
+            <h2 class="text-lg font-semibold mb-3 font-poppins">Friends you might know</h2>
+            @foreach ($userData->shuffle()->take(3) as $user)
                 <div class="flex items-center gap-3 mb-4">
-                    <img src="{{ asset('storage/' . $user->profile) }}" alt="Zephyx2606"
+                    <img src="{{ asset('storage/' . $user->profile) }}" alt="Profile"
                         class="w-10 h-10 rounded-full object-cover" />
                     <span class="font-poppins text-base font-medium text-gray-900">{{ $user->username }}</span>
                 </div>

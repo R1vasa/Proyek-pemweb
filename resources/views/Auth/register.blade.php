@@ -34,8 +34,12 @@
                         <div class="mt-2 flex items-center gap-2 border-b border-gray-300">
                             <i class='bx bx-envelope text-xl text-gray-500'></i>
                             <input type="email" name="email" id="email" autocomplete="email"
-                                placeholder="Type your Email" class="w-full sm:text-base text-sm focus:outline-none">
+                                placeholder="Type your Email" class="w-full sm:text-base text-sm focus:outline-none"
+                                value="{{ old('email') }}">
                         </div>
+                        @if ($errors->has('email'))
+                            <p class="mt-1 text-sm text-red-500 font-medium">{{ $errors->first('email') }}</p>
+                        @endif
                     </div>
 
 
@@ -47,6 +51,9 @@
                                 placeholder="Type your Password"
                                 class="w-full sm:text-base text-sm focus:outline-none py-2">
                         </div>
+                        @if ($errors->has('password'))
+                            <p class="mt-1 text-sm text-red-500 font-medium">{{ $errors->first('password') }}</p>
+                        @endif
                     </div>
 
                     <div class="flex justify-center">

@@ -31,14 +31,15 @@
 
                     <div>
                         <img src="/images/default.png" id="preview" alt=""
-                            class="mx-auto rounded-full object-cover" style="width: 120px; height: 120px;">
+                            class="mx-auto rounded-full object-cover border-4 border-yellow-300"
+                            style="width: 120px; height: 120px;">
                         <div class="flex justify-center mt-5">
                             <label for="profile"
                                 class="cursor-pointer inline-block bg-yellow-300 hover:bg-yellow-400 text-black text-sm font-semibold py-2 px-4 rounded-3xl">
                                 Pilih Foto
                             </label>
                             <input type="file" name="profile" id="profile" class="hidden" accept="image/*"
-                                onchange="previewImage()">
+                                onchange="previewImage()" value="{{ old('') }}">
                         </div>
                     </div>
 
@@ -50,6 +51,9 @@
                                 placeholder="Type your Username"
                                 class="w-full sm:text-base text-sm focus:outline-none py-2">
                         </div>
+                        @if ($errors->has('username'))
+                            <p class="mt-1 text-sm text-red-500 font-medium">{{ $errors->first('username') }}</p>
+                        @endif
                     </div>
 
                     <div class="flex justify-center">
@@ -63,21 +67,6 @@
             </div>
         </div>
     </div>
-    <script>
-        function previewImage() {
-            const input = document.getElementById("profile");
-            const preview = document.getElementById("preview");
-
-            const file = input.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    preview.src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-    </script>
 </body>
 
 </html>
