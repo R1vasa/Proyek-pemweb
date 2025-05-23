@@ -16,8 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('post_id')->constrained()->onDelete('cascade');
             $table->timestamps();
-        
-            $table->unique(['user_id', 'post_id']); // satu user hanya bisa like 1x per post
+            $table->unique(['user_id', 'post_id']);
         });
     }
 
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('likes');
     }
 };
