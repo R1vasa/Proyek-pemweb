@@ -1,8 +1,8 @@
 <?php
-    use App\Http\Controllers\PostsController;
+use App\Http\Controllers\PostsController;
 
-    $PostModel = new PostsController();
-    $postData = $PostModel->get_posts();
+$PostModel = new PostsController();
+$postData = $PostModel->get_posts();
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +27,7 @@
 <body class="bg-gray-100 flex min-h-screen">
     {{-- sidebar --}}
     <!-- Manggil Sidebar pake ini -->
-    <x-sidebar /> 
+    <x-sidebar />
 
     {{-- feed --}}
     <div class="flex-1 max-w- border-r border-gray-300 bg-white flex flex-col overflow-y-auto h-screen no-scrollbar">
@@ -39,9 +39,9 @@
             <div class="flex items-start gap-4 mt-0">
                 <img src="{{ asset('storage/' . Auth::user()->profile) }}" alt="Profile"
                     class="w-12 h-12 rounded-full object-cover shrink-0" />
-                <input type="text"
-                    class="flex-1 border-none outline-none rounded-[24px] px-5 py-[18px] text-[1.1rem] bg-white mr-3 font-[Poppins,Arial,sans-serif] self-center"
-                    placeholder="Quack!!!" />
+                <textarea
+                    class="flex-1 border-none outline-none rounded-[24px] px-5 py-2 text-1 bg-white mr-3 font-[Poppins,Arial,sans-serif] self-center"
+                    placeholder="Quack!!!"></textarea>
                 <button
                     class="bg-orange-500 hover:bg-yellow-400 text-black rounded-full px-7 py-[10px] text-base font-medium font-[Poppins,Arial,sans-serif] cursor-pointer self-center">
                     Post
@@ -49,17 +49,17 @@
             </div>
         </div>
 
-    {{-- post 1 --}}
-    <!-- Manggil Post pake ini -->
+        {{-- post 1 --}}
+        <!-- Manggil Post pake ini -->
 
-    <x-post/>
+        <x-post />
 
-    {{-- post 2 --}}
+        {{-- post 2 --}}
     </div>
 
     {{-- sidebar --}}
     {{-- widget --}}
-    <x-widget/>
+    <x-widget />
 </body>
 
 </html>
