@@ -22,4 +22,6 @@ class AdminController extends Controller
     return redirect()->back()->with('success', 'User berhasil dihapus.'); // Redirect kembali dengan pesan sukses
 }
 
+
+
 }
