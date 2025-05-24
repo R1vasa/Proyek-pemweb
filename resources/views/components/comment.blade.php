@@ -85,7 +85,7 @@ use Illuminate\Support\Facades\Auth;
         <div class="flex items-center justify-between border-b px-6 py-3">
             <button type="button" onclick="closeEditModal()"
                 class="text-lg font-semibold text-gray-700 cursor-pointer">Cancel</button>
-            <span class="font-bold text-lg">Edit Comment</span>
+            <span class="font-bold text-lg">Edit comment</span>
             <button type="submit" form="editForm"
                 class="text-blue-500 font-semibold text-lg cursor-pointer">Done</button>
         </div>

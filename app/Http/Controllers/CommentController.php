@@ -26,6 +26,7 @@ class CommentController extends Controller
         return redirect()->back()->with('success', 'Comment added!');
     }
 
+    // Update comment
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -34,8 +35,8 @@ class CommentController extends Controller
 
         $comment = Comment::findOrFail($id);
 
-        // Cek hak akses user (harus pemilik komentar)
-        if (auth()->id() !== $comment->user_id) {
+        // Cek hak akses user (hanya pemilik komentar atau admin)
+        if (Auth::id() !== $comment->user_id && Auth::user()->role !== 'admin') {
             abort(403, 'Unauthorized action.');
         }
 
@@ -45,16 +46,17 @@ class CommentController extends Controller
         return redirect()->back()->with('success', 'Komentar berhasil diperbarui');
     }
 
+    // Delete comment
     public function destroy($id)
     {
         $comment = Comment::findOrFail($id);
 
-        // Cek hak akses user (pemilik komentar atau admin)
-        if (auth()->id() !== $comment->user_id && auth()->user()->role !== 'admin') {
+        // Cek hak akses user (hanya pemilik komentar atau admin)
+        if (Auth::id() !== $comment->user_id && Auth::user()->role !== 'admin') {
             abort(403, 'Unauthorized action.');
         }
 
-        // Jika ada file gambar terkait, hapus dari storage
+        // Hapus gambar jika ada
         if ($comment->img_content && Storage::disk('public')->exists($comment->img_content)) {
             Storage::disk('public')->delete($comment->img_content);
         }
