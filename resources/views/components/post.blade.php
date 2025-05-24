@@ -21,6 +21,7 @@ $postData = $postModel->get_posts();
                 <div class="px-4">
                     <h3 class="font-bold">{{ $post->user->username }}</h3>
                     <span class="text-xs text-gray-500">{{ $post->created_at ? $post->created_at->diffForHumans() : '' }}</span>
+
                     <p class="text-sm text-justify">{{ $post->content }}</p>
                 </div>
             </div>

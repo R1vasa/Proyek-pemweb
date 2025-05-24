@@ -13,13 +13,14 @@ class Post extends Model
         'img_content',
         'content',
     ];
-    
+  
     public function user()
     {
         return $this->belongsTo(\App\Models\User::class, 'user_id');
     }
-    
-        public function likes()
+
+
+    public function likes()
     {
         return $this->hasMany(\App\Models\Like::class);
     }

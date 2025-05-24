@@ -21,3 +21,29 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
+
+@keyframes pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.4); }
+    100% { transform: scale(1); }
+}
+.like-animate {
+    animation: pop 0.3s;
+}
+
+@keyframes bookmark-pop {
+    0% { transform: scale(1);}
+    50% { transform: scale(1.4);}
+    100% { transform: scale(1);}
+}
+
+.bookmark-animate {
+    animation: bookmark-pop 0.3s;
+}
+
+.bookmark-active {
+    color: #ec4899 !important; /* Tailwind's pink-500 */
+}
+
+
+

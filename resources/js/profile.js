@@ -1,4 +1,4 @@
-function previewImage() {
+window.previewImage = function () {
     const input = document.getElementById("profile");
     const preview = document.getElementById("preview");
 
@@ -10,4 +10,4 @@ function previewImage() {
         };
         reader.readAsDataURL(file);
     }
-}
+};

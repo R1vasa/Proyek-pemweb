@@ -52,4 +52,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(posts::class);
     }
+    public function isBanned()
+    {
+        return $this->role === 'banned';
+    }
 }
