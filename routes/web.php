@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 | Guest Routes
 |--------------------------------------------------------------------------
 */
+
 Route::middleware('guest')->group(function () {
     Route::get('/login', [SessionController::class, 'index'])->name('login');
     Route::post('/login', [SessionController::class, 'login']);
@@ -45,9 +46,10 @@ Route::middleware(['auth', CheckProfileComplete::class])->group(function () {
     Route::get('/home/post/{id}', [PostsController::class, 'showWithComments'])->name('post.comments');
 
     //Comments
-    Route::put('/comments/{id}', [CommentController::class, 'update'])->name('comments.update');
-    Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comments.destroy');
     Route::post('/posts/{id}/comments', [CommentController::class, 'store'])->name('comments.store');
+    Route::put('/comments/{comment}', [CommentController::class, 'update'])->name('comments.update');
+    Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
+
 
     // Profile
     Route::get('/profile', [PostsController::class, 'myPosts'])->name('profile');
@@ -60,8 +62,6 @@ Route::middleware(['auth', CheckProfileComplete::class])->group(function () {
     Route::post('/user/unban/{id}', [UsersController::class, 'unban'])->name('users.unban');
     Route::post('/user/make-admin/{id}', [UsersController::class, 'makeAdmin'])->name('users.makeAdmin');
     Route::delete('/users/{id}', [AdminController::class, 'destroy'])->name('users.destroy');
-
-
 });
 
 /*
