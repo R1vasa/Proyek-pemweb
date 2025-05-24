@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layout.app')
 
-<head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1" name="viewport" />
-    <title>Quack Dashboard</title>
-    @vite('resources/css/app.css')
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+@section('title', 'Dashboard')
+
+@push('css')
     <style>
         .custom-scrollbar::-webkit-scrollbar {
             width: 6px;
@@ -64,9 +60,10 @@
             /* Mengatur latar belakang modal menjadi transparan */
         }
     </style>
-</head>
+@endpush
 
-<body class="min-h-full">
+
+@section('body')
     <div class="bg-white w-full h-full flex overflow-hidden">
         <x-sidebar></x-sidebar>
 
@@ -75,8 +72,8 @@
                 <h2 class="text-xs text-black mb-3 select-none">
                     User Analytics
                 </h2>
-                {{-- <div class="bg-[#fef7ff] rounded-md p-4 max-h-48 overflow-y-auto scrollbar-thin scrollbar-thumb-yellow-400 scrollbar-track-gray-200"
-                    style="scrollbar-color: #facc15 #f3f4f6"> --}}
+                <div class="bg-[#fef7ff] rounded-md p-4 max-h-48 overflow-y-auto scrollbar-thin scrollbar-thumb-yellow-400 scrollbar-track-gray-200"
+                    style="scrollbar-color: #facc15 #f3f4f6">
                     <ul class="space-y-3">
                         @foreach ($user as $users)
                             <li class="flex items-center justify-between">
@@ -100,8 +97,8 @@
                                         @if ($users->isBanned())
                                             <!-- Ganti dengan kondisi yang sesuai untuk memeriksa status banned -->
                                             <!-- User diban -->
-                                            <form id="unbanForm{{ $users->id }}" action="{{ route('users.unban', $users->id) }}"
-                                                method="POST"
+                                            <form id="unbanForm{{ $users->id }}"
+                                                action="{{ route('users.unban', $users->id) }}" method="POST"
                                                 onsubmit="event.preventDefault(); showModal('Cabut Ban User', 'Apakah Anda yakin ingin mencabut ban user ini?', () => submitForm('unbanForm{{ $users->id }}'))">
                                                 @csrf
                                                 <button type="submit" class="text-green-600 hover:bg-green-50">
@@ -127,8 +124,8 @@
                                             </form>
                                         @else
                                             <!-- User tidak diban -->
-                                            <form id="banForm{{ $users->id }}" action="{{ route('users.ban', $users->id) }}"
-                                                method="POST"
+                                            <form id="banForm{{ $users->id }}"
+                                                action="{{ route('users.ban', $users->id) }}" method="POST"
                                                 onsubmit="event.preventDefault(); showModal('Ban User', 'Apakah Anda yakin ingin membanned user ini?', () => submitForm('banForm{{ $users->id }}'))">
                                                 @csrf
                                                 <button type="submit" class="text-yellow-600 hover:bg-yellow-50">
@@ -328,6 +325,4 @@
             });
         });
     </script>
-</body>
-
-</html>
+@endsection
