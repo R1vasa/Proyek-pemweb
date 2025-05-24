@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Comment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -125,5 +126,12 @@ class PostsController extends Controller
     {
         $posts = Post::with('user', 'likes')->where('user_id', Auth::id())->latest()->get();
         return view('pages.profile', compact('posts'));
+    }
+
+    public function showWithComments($id)
+    {
+        $post = Post::with('user')->findOrFail($id);
+        $comments = Comment::with('user')->where('post_id', $id)->latest()->get();
+        return view('pages.comments', compact('post', 'comments'));
     }
 }

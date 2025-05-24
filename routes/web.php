@@ -5,6 +5,7 @@ use App\Http\Controllers\SessionController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CommentController;
 use App\Http\Middleware\UserAkses;
 use App\Http\Middleware\CheckProfileComplete;
 use Illuminate\Support\Facades\Route;
@@ -41,6 +42,12 @@ Route::middleware(['auth', CheckProfileComplete::class])->group(function () {
     // Posts
     Route::resource('posts', PostsController::class)->except(['create', 'edit', 'show']);
     Route::post('/posts/{id}/like', [PostsController::class, 'like'])->name('posts.like');
+    Route::get('/home/post/{id}', [PostsController::class, 'showWithComments'])->name('post.comments');
+
+    //Comments
+    Route::put('/comments/{id}', [CommentController::class, 'update'])->name('comments.update');
+    Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comments.destroy');
+    Route::post('/posts/{id}/comments', [CommentController::class, 'store'])->name('comments.store');
 
     // Profile
     Route::get('/profile', [PostsController::class, 'myPosts'])->name('profile');
@@ -53,6 +60,8 @@ Route::middleware(['auth', CheckProfileComplete::class])->group(function () {
     Route::post('/user/unban/{id}', [UsersController::class, 'unban'])->name('users.unban');
     Route::post('/user/make-admin/{id}', [UsersController::class, 'makeAdmin'])->name('users.makeAdmin');
     Route::delete('/users/{id}', [AdminController::class, 'destroy'])->name('users.destroy');
+
+
 });
 
 /*
