@@ -4,6 +4,7 @@
     "src": "public/images/background.jpg"
   },
   "resources/css/app.css": {
+    "file": "assets/app-D3YMRqkE.css",
     "file": "assets/app-CkQsLvgV.css",
     "src": "resources/css/app.css",
     "isEntry": true

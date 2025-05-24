@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\PostsController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Middleware\UserAkses;
@@ -49,3 +51,12 @@ Route::get('/', function () {
     }
     return redirect('/login');
 });
+
+Route::middleware(['auth'])->group(function () {
+    Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile/delete', [ProfileController::class, 'destroy'])->name('profile.delete');
+});
+
+Route::resource('posts', PostsController::class)->middleware('auth');
+Route::get('/profile', [PostsController::class, 'myPosts'])->name('profile');
+Route::get('/my-posts', [PostsController::class, 'myPosts'])->middleware('auth');

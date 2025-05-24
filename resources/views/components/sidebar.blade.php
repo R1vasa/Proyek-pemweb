@@ -1,4 +1,4 @@
-    <div class="flex flex-col w-64 bg-white shadow-lg p-4 min-h-screen sticky border-r border-gray-300">
+ <div class="flex flex-col w-64 bg-white shadow-lg p-4 min-h-screen sticky border-r border-gray-300">
         <div class="flex items-center mb-4">
             <img src="{{ asset('img/Quack.jpg') }}" alt="Logo" class="w-12 h-12 rounded-full mr-3" />
             <span class="text-2xl font-bold font-[Darumadrop_One]">Quack</span>
@@ -44,8 +44,13 @@
             <span class="mr-3 flex items-center justify-center w-8 h-8 rounded-full bg-yellow-300">
                 <span class="material-symbols-outlined text-black">person</span>
             </span>
-            <h2 class="text-md font-semibold font-poppins text-black">Profile</h2>
+            @if (Auth::check())
+                <a href="/profile">
+                    <h2 class="text-md font-semibold font-poppins text-black">Profile</h2>
+                </a>
+            @endif
         </div>
+
         @if (Auth::check() && Auth::user()->role === 'admin')
             <div class="flex items-center p-3 rounded-lg cursor-pointer">
                 <span class="mr-3 flex items-center justify-center w-8 h-8 rounded-full bg-yellow-300">

@@ -1,5 +1,5 @@
 import "./bootstrap";
 import "./buttonRegister";
-import "./profile";
 import "./modal";
+import "./profile";
 import "./feed";
