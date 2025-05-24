@@ -14,13 +14,8 @@ class ProfileController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $posts = Post::where('user_id', $user->id)
-                     ->with('user')
-                     ->latest()
-                     ->get();
-
-         return view('pages.profile', compact('posts'));
-
+            $posts = Post::with(['user', 'likes'])->where('user_id', Auth::id())->latest()->get();
+    return view('profile', compact('posts'));
     }
     public function update(Request $request)
     {
@@ -64,5 +59,11 @@ class ProfileController extends Controller
 
         return redirect('/')->with('success', 'Account deleted.');
     }
+
+    public function show()
+{
+    $posts = Post::where('user_id', Auth::id())->latest()->get();
+    return view('profile', compact('posts'));
+}
     
 }
