@@ -31,18 +31,14 @@ class SessionController extends Controller
             $loginField => $request->email,
             'password' => $request->password,
         ];
+if (Auth::attempt($credentials)) {
+        $user = Auth::user();
+        if ($user->isBanned()) { // Memeriksa apakah pengguna dibanned
+            Auth::logout();
+            return redirect()->route('login')->withErrors(['email' => 'akun anda telah dibanned']);
+        }
 
-        if (Auth::attempt($credentials)) {
-            // Check if the user is banned
-            $user = Auth::user();
-            if ($user->role === 'banned') {
-                Auth::logout();
-                return redirect()->route('login')->withErrors([
-                    'email' => 'Akun anda telah dibanned.',
-                ]);
-            }
-
-            // Redirect based on user role
+        
             return $user->role === 'admin' ? redirect('admin') : redirect('home');
         } else {
             return redirect()->back()->withErrors('Email/Username atau Password salah')->withInput();

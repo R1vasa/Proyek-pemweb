@@ -65,7 +65,7 @@ use Illuminate\Support\Facades\Auth;
     <div id="deleteModal{{ $comment->id }}" class="flex hidden fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50">
         <div id="modalContent{{ $comment->id }}" class="bg-white rounded-lg p-6 max-w-md w-full transition-all duration-300 transform" style="opacity: 0; transform: scale(0.95)">
             <h2 class="text-xl font-bold mb-4">Konfirmasi Hapus</h2>
-            <p>Apakah Anda yakin ingin menghapus postingan ini?</p>
+            <p>Apakah Anda yakin ingin menghapus comment ini?</p>
             <div class="mt-6 flex justify-end">
                 <button type="button" class="px-4 py-2 bg-gray-300 text-gray-700 rounded mr-2" onclick="closeModal('deleteModal{{ $comment->id }}')">Batal</button>
                 <form id="deleteForm{{ $comment->id }}" action="{{ route('posts.destroy', $comment->id) }}" method="POST" style="display:inline;">
@@ -84,7 +84,7 @@ use Illuminate\Support\Facades\Auth;
         <div class="flex items-center justify-between border-b px-6 py-3">
             <button type="button" onclick="closeEditModal()"
                 class="text-lg font-semibold text-gray-700 cursor-pointer">Cancel</button>
-            <span class="font-bold text-lg">Edit Comment</span>
+            <span class="font-bold text-lg">Edit comment</span>
             <button type="submit" form="editForm"
                 class="text-blue-500 font-semibold text-lg cursor-pointer">Done</button>
         </div>

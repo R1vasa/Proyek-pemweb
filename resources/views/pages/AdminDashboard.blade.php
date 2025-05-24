@@ -205,9 +205,9 @@
             <h2 class="text-xl font-bold mb-4" id="modalTitle">Modal Title</h2>
             <p id="modalMessage" class="mb-4"></p>
             <div class="mt-6 flex justify-end space-x-2">
-                <button id="confirmAction"
-                  class="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition">Tidak</button>
                 <button id="closeModal"
+                  class="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition">Tidak</button>
+                <button id="confirmAction"
                     class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">Iya</button>
             </div>
         </div>
