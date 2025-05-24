@@ -31,55 +31,56 @@ use Illuminate\Support\Facades\Auth;
                 style="display:none" onclick="event.stopPropagation()">
                 <!-- Edit Post Option (Only for Post Owner) -->
                 @if($comment->user_id === Auth::id())
-                    <button type="button"
-                        class="w-full flex items-center gap-2 px-4 py-2 text-sm text-blue-600 hover:bg-blue-50 transition rounded-t"
-                        onclick="event.stopPropagation(); openEditModal({{ $comment->id }}, '{{ addslashes(e($comment->comment)) }}', '{{ asset('storage/' . ($comment->img_content ?? '')) }}')">
-                        <i class="fa-solid fa-pen-to-square"></i>
-                        Edit Post
-                    </button>
-                    <!-- Delete Post Option (Only for Post Owner) -->
-                    <button type="button"
-                        class="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition rounded-b"
-                        onclick="event.stopPropagation(); openModal('deleteModal{{ $comment->id }}')">
-                        <i class="fa-solid fa-trash-can cursor-pointer"></i>
-                        Delete Post
-                    </button>
+                <button type="button"
+                    class="w-full flex items-center gap-2 px-4 py-2 text-sm text-blue-600 hover:bg-blue-50 transition rounded-t"
+                    onclick="event.stopPropagation(); openEditModal({{ $comment->id }}, '{{ addslashes(e($comment->comment)) }}')">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    Edit Komen
+                </button>
+
+                <!-- Delete Post Option (Only for Post Owner) -->
+                <button type="button"
+                    class="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition rounded-b"
+                    onclick="event.stopPropagation(); openModal('deleteModal{{ $comment->id }}')">
+                    <i class="fa-solid fa-trash-can cursor-pointer"></i>
+                    Hapus Komen
+                </button>
                 @endif
                 <!-- Divider -->
                 <div class="border-t border-gray-100"></div>
                 <!-- Delete Post Option (Only for Admin) -->
                 @if(Auth::user()->role === 'admin' && $comment->user_id !== Auth::id())
-                    <button type="button"
-                        class="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition rounded-b"
-                        onclick="event.stopPropagation(); openModal('deleteModal{{ $comment->id }}')">
-                        <i class="fa-solid fa-trash-can cursor-pointer"></i>
-                        Delete Post
-                    </button>
+                <button type="button"
+                    class="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition rounded-b"
+                    onclick="event.stopPropagation(); openModal('deleteModal{{ $comment->id }}')">
+                    <i class="fa-solid fa-trash-can cursor-pointer"></i>
+                    Delete Post
+                </button>
                 @endif
             </div>
         </div>
     </div>
-    </div>
+</div>
 
-    <!-- Modal Konfirmasi Hapus -->
-    <div id="deleteModal{{ $comment->id }}" class="flex hidden fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50">
-        <div id="modalContent{{ $comment->id }}" class="bg-white rounded-lg p-6 max-w-md w-full transition-all duration-300 transform" style="opacity: 0; transform: scale(0.95)">
-            <h2 class="text-xl font-bold mb-4">Konfirmasi Hapus</h2>
-            <p>Apakah Anda yakin ingin menghapus comment ini?</p>
-            <div class="mt-6 flex justify-end">
-                <button type="button" class="px-4 py-2 bg-gray-300 text-gray-700 rounded mr-2" onclick="closeModal('deleteModal{{ $comment->id }}')">Batal</button>
-                <form id="deleteForm{{ $comment->id }}" action="{{ route('posts.destroy', $comment->id) }}" method="POST" style="display:inline;">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded">Hapus</button>
-                </form>
-            </div>
+<!-- Modal Konfirmasi Hapus -->
+<div id="deleteModal{{ $comment->id }}" class="flex hidden fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50">
+    <div id="modalContent{{ $comment->id }}" class="bg-white rounded-lg p-6 max-w-md w-full transition-all duration-300 transform" style="opacity: 0; transform: scale(0.95)">
+        <h2 class="text-xl font-bold mb-4">Konfirmasi Hapus</h2>
+        <p>Apakah Anda yakin ingin menghapus postingan ini?</p>
+        <div class="mt-6 flex justify-end">
+            <button type="button" class="px-4 py-2 bg-gray-300 text-gray-700 rounded mr-2" onclick="closeModal('deleteModal{{ $comment->id }}')">Batal</button>
+            <form id="deleteForm{{ $comment->id }}" action="{{ route('comments.destroy', $comment->id) }}" method="POST" style="display:inline;">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded">Hapus</button>
+            </form>
         </div>
     </div>
+</div>
 
 <!-- Modal Edit -->
 <div id="editModal" class="hidden fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50">
-    <div class="bg-white rounded-[20px] shadow-lg w-full max-w-3xl flex flex-col">
+    <div id="modalContentEdit" class="bg-white rounded-[20px] shadow-lg w-full max-w-3xl flex flex-col">
         <!-- Header -->
         <div class="flex items-center justify-between border-b px-6 py-3">
             <button type="button" onclick="closeEditModal()"
@@ -133,7 +134,6 @@ use Illuminate\Support\Facades\Auth;
 
     let currentOpenDropdown = null;
 
-    // --- Dropdown Functions ---
     function toggleDropdown(id) {
         const dropdown = document.getElementById(id);
 
@@ -206,63 +206,94 @@ use Illuminate\Support\Facades\Auth;
     }
 
     // --- Edit Modal Functions ---
-    function openEditModal(postId, content, imageUrl) {
+    function openEditModal(commentId, content, imageUrl) {
         const modal = document.getElementById('editModal');
         const form = document.getElementById('editForm');
-        
-        // Set form action
-        form.action = `/posts/${postId}`;
-        
-        // Set content
-        document.getElementById('editContent').value = content;
-        
-        // Set image preview
-        const imgPreview = document.getElementById('editImagePreview');
-        if (imageUrl) {
-            imgPreview.src = imageUrl;
-        } else {
-            imgPreview.src = ''; // Clear if no image
+
+        if (form) {
+            form.action = `/comments/${commentId}`;
         }
-        
-        // Show modal
-        modal.classList.remove('hidden');
+
+        const contentInput = document.getElementById('editContent');
+        if (contentInput) {
+            contentInput.value = content;
+        }
+
+        const imgPreview = document.getElementById('editImagePreview');
+        if (imgPreview) {
+            if (imageUrl) {
+                imgPreview.src = imageUrl;
+            } else {
+                imgPreview.src = '';
+            }
+        }
+
+        if (modal) {
+            modal.classList.remove('hidden');
+        }
     }
 
     function closeEditModal() {
-        document.getElementById('editModal').classList.add('hidden');
+        const modal = document.getElementById('editModal');
+        if (modal) {
+            modal.classList.add('hidden');
+        }
     }
 
-    // Initialize character counter
-    document.getElementById('editContent').addEventListener('input', function() {
-        const charCount = this.value.length;
-        document.getElementById('charCount').textContent = `${charCount}/2200`;
-    });
+    // Character counter
+    const contentInput = document.getElementById('editContent');
+    if (contentInput) {
+        contentInput.addEventListener('input', function() {
+            const charCount = this.value.length;
+            const counter = document.getElementById('charCount');
+            if (counter) {
+                counter.textContent = `${charCount}/2200`;
+            }
+        });
+    }
 
-    // Handle image selection for edit
-    document.getElementById('editImageInput').addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        const preview = document.getElementById('editImagePreview');
-        const alert = document.getElementById('editImageAlert');
-        
-        if (file) {
-            if (file.size > 2 * 1024 * 1024) { // 2MB limit
-                alert.textContent = 'Ukuran file terlalu besar (maks 2MB)';
-                alert.style.display = 'block';
-                e.target.value = ''; // Clear the input
-                return;
+    // Image preview and validation
+    const imageInput = document.getElementById('editImageInput');
+    if (imageInput) {
+        imageInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const preview = document.getElementById('editImagePreview');
+            const alert = document.getElementById('editImageAlert');
+
+            if (file) {
+                if (file.size > 2 * 1024 * 1024) {
+                    if (alert) {
+                        alert.textContent = 'Ukuran file terlalu besar (maks 2MB)';
+                        alert.style.display = 'block';
+                    }
+                    e.target.value = '';
+                    return;
+                }
+
+                if (!file.type.match('image.*')) {
+                    if (alert) {
+                        alert.textContent = 'Hanya file gambar yang diizinkan';
+                        alert.style.display = 'block';
+                    }
+                    e.target.value = '';
+                    return;
+                }
+
+                if (alert) {
+                    alert.style.display = 'none';
+                }
+
+                if (preview) {
+                    const objectUrl = URL.createObjectURL(file);
+                    preview.src = objectUrl;
+
+                    preview.onload = function() {
+                        URL.revokeObjectURL(objectUrl); // free memory
+                    };
+                }
             }
-            
-            if (!file.type.match('image.*')) {
-                alert.textContent = 'Hanya file gambar yang diizinkan';
-                alert.style.display = 'block';
-                e.target.value = ''; // Clear the input
-                return;
-            }
-            
-            alert.style.display = 'none';
-            preview.src = URL.createObjectURL(file);
-        }
-    });
+        });
+    }
 </script>
 
 <style>

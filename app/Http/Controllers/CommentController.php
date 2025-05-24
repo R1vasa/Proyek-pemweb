@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Comment;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class CommentController extends Controller
 {
@@ -25,36 +26,43 @@ class CommentController extends Controller
         return redirect()->back()->with('success', 'Comment added!');
     }
 
-    // Update a comment
+    // Update comment
     public function update(Request $request, $id)
-{
-    $request->validate([
-        'comment' => 'required|string|max:1000',
-    ]);
+    {
+        $request->validate([
+            'comment' => 'required|string|max:2200',
+        ]);
 
-    $comment = Comment::findOrFail($id);
+        $comment = Comment::findOrFail($id);
 
-    if ($comment->user_id !== Auth::id() && Auth::user()->role !== 'admin') {
-        abort(403, 'Unauthorized action.');
+        // Cek hak akses user (hanya pemilik komentar atau admin)
+        if (Auth::id() !== $comment->user_id && Auth::user()->role !== 'admin') {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $comment->comment = $request->comment;
+        $comment->save();
+
+        return redirect()->back()->with('success', 'Komentar berhasil diperbarui');
     }
 
-    $comment->comment = $request->comment;
-    $comment->save();
-
-    return redirect()->back()->with('success', 'Comment updated!');
-}
-
-
+    // Delete comment
     public function destroy($id)
     {
         $comment = Comment::findOrFail($id);
 
-        if ($comment->user_id !== Auth::id() && Auth::user()->role !== 'admin') {
+        // Cek hak akses user (hanya pemilik komentar atau admin)
+        if (Auth::id() !== $comment->user_id && Auth::user()->role !== 'admin') {
             abort(403, 'Unauthorized action.');
+        }
+
+        // Hapus gambar jika ada
+        if ($comment->img_content && Storage::disk('public')->exists($comment->img_content)) {
+            Storage::disk('public')->delete($comment->img_content);
         }
 
         $comment->delete();
 
-        return redirect()->route('home')->with('success', 'Komentar berhasil dihapus.');
+        return redirect()->back()->with('success', 'Komentar berhasil dihapus.');
     }
 }
