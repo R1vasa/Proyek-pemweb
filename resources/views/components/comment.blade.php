@@ -2,100 +2,73 @@
 
 namespace App\View\Components;
 
+use Illuminate\View\Component;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\PostsController;
-
-$postModel = new PostsController();
-$postData = $postModel->get_posts();
 ?>
 
-@foreach ($postData as $post)
-    <div class="bg-white border mx-auto w-[70%] p-5 relative border-gray-300 flex-shrink-0 flex-grow-0 mb-6">
-        <div class="flex justify-between">
-            <div class="flex flex-row">
-                <div>
-                    <img src="{{ asset('storage/' . ($post->user->profile ?? 'profile.png')) }}" alt="Profile"
-                        class="w-10 h-10 rounded-full object-cover">
-                </div>
-                <div class="px-4">
-                    <h3 class="font-bold">{{ $post->user->username }}</h3>
-                    <span class="text-xs text-gray-500">{{ $post->created_at ? $post->created_at->diffForHumans() : '' }}</span>
-
-                    <p class="text-sm text-justify">{{ $post->content }}</p>
-                </div>
+<div class="bg-white border mx-auto w-[70%] p-5 relative border-gray-300 flex-shrink-0 flex-grow-0 mb-0">
+    <div class="flex justify-between">
+        <div class="flex flex-row">
+            <div>
+                <img src="{{ asset('storage/' . ($comment->user->profile ?? 'profile.png')) }}" alt="Profile"
+                    class="w-10 h-10 rounded-full object-cover">
             </div>
-            <!-- Dropdown Button -->
-            <div class="relative">
-                <button type="button" class="text-xl cursor-pointer px-2"
-                    onclick="toggleDropdown('dropdown{{ $post->id }}', event)" aria-haspopup="true" aria-expanded="false">
-                    •••
-                </button>
-                <div id="dropdown{{ $post->id }}"
-                    class="dropdown-content absolute right-0 mt-2 min-w-[150px] bg-white border border-gray-200 rounded-lg shadow-lg z-50"
-                    style="display:none" onclick="event.stopPropagation()">
-                    <!-- Edit Post Option (Only for Post Owner) -->
-                    @if($post->user_id === Auth::id())
-                        <button type="button"
-                            class="w-full flex items-center gap-2 px-4 py-2 text-sm text-blue-600 hover:bg-blue-50 transition rounded-t"
-                            onclick="event.stopPropagation(); openEditModal({{ $post->id }}, '{{ addslashes(e($post->content)) }}', '{{ asset('storage/' . ($post->img_content ?? '')) }}')">
-                            <i class="fa-solid fa-pen-to-square"></i>
-                            Edit Post
-                        </button>
-                        <!-- Delete Post Option (Only for Post Owner) -->
-                        <button type="button"
-                            class="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition rounded-b"
-                            onclick="event.stopPropagation(); openModal('deleteModal{{ $post->id }}')">
-                            <i class="fa-solid fa-trash-can cursor-pointer"></i>
-                            Delete Post
-                        </button>
-                    @endif
-                    <!-- Divider -->
-                    <div class="border-t border-gray-100"></div>
-                    <!-- Delete Post Option (Only for Admin) -->
-                    @if(Auth::user()->role === 'admin' && $post->user_id !== Auth::id())
-                        <button type="button"
-                            class="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition rounded-b"
-                            onclick="event.stopPropagation(); openModal('deleteModal{{ $post->id }}')">
-                            <i class="fa-solid fa-trash-can cursor-pointer"></i>
-                            Delete Post
-                        </button>
-                    @endif
-                </div>
+            <div class="px-4">
+                <h3 class="font-bold">{{ $comment->user->username }}</h3>
+                <span class="text-xs text-gray-500">{{ $comment->created_at ? $comment->created_at->diffForHumans() : '' }}</span>
+
+                <p class="text-sm text-justify">{{ $comment->comment }}</p>
             </div>
         </div>
-        @if ($post->img_content)
-            <div>
-                <img src="{{ asset('storage/' . $post->img_content) }}" alt="Post image"
-                    class="w-full max-w-2xs block mx-auto mt-3 rounded-lg" />
-            </div>
-        @endif
-        <div class="flex items-center justify-between mt-4 px-2">
-            <div class="flex items-center gap-2">
-                <button class="like-btn" data-post="{{ $post->id }}"
-                    style="background:none;border:none;outline:none;cursor:pointer;">
-                    <img src="{{ $post->likes->where('user_id', Auth::id())->count() ? asset('img/QuackClicked.jpg') : asset('img/QuackIcon.png') }}"
-                        alt="Like Icon" class="aspect-square h-7 w-7 cursor-pointer" />
-                </button>
-                <span
-                    class="text-gray-500 text-sm font-medium ml-1 like-count-{{ $post->id }}">{{ $post->likes->count() ?? 0 }}</span>
-            </div>
-            <div class="flex items-center gap-4">
-                <a href="/home/post/{{ $post->id }}">
-                    <span class="material-symbols-outlined text-2xl text-gray-700 cursor-pointer">mode_comment</span>
-                </a>
-                <span class="material-symbols-outlined text-2xl text-gray-700 cursor-pointer bookmark-icon">bookmark</span>
+        <!-- Dropdown Button -->
+        <div class="relative">
+            <button type="button" class="text-xl cursor-pointer px-2"
+                onclick="toggleDropdown('dropdown{{ $comment->id }}', event)" aria-haspopup="true" aria-expanded="false">
+                •••
+            </button>
+            <div id="dropdown{{ $comment->id }}"
+                class="dropdown-content absolute right-0 mt-2 min-w-[150px] bg-white border border-gray-200 rounded-lg shadow-lg z-50"
+                style="display:none" onclick="event.stopPropagation()">
+                <!-- Edit Post Option (Only for Post Owner) -->
+                @if($comment->user_id === Auth::id())
+                    <button type="button"
+                        class="w-full flex items-center gap-2 px-4 py-2 text-sm text-blue-600 hover:bg-blue-50 transition rounded-t"
+                        onclick="event.stopPropagation(); openEditModal({{ $comment->id }}, '{{ addslashes(e($comment->comment)) }}', '{{ asset('storage/' . ($comment->img_content ?? '')) }}')">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        Edit Post
+                    </button>
+                    <!-- Delete Post Option (Only for Post Owner) -->
+                    <button type="button"
+                        class="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition rounded-b"
+                        onclick="event.stopPropagation(); openModal('deleteModal{{ $comment->id }}')">
+                        <i class="fa-solid fa-trash-can cursor-pointer"></i>
+                        Delete Post
+                    </button>
+                @endif
+                <!-- Divider -->
+                <div class="border-t border-gray-100"></div>
+                <!-- Delete Post Option (Only for Admin) -->
+                @if(Auth::user()->role === 'admin' && $comment->user_id !== Auth::id())
+                    <button type="button"
+                        class="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition rounded-b"
+                        onclick="event.stopPropagation(); openModal('deleteModal{{ $comment->id }}')">
+                        <i class="fa-solid fa-trash-can cursor-pointer"></i>
+                        Delete Post
+                    </button>
+                @endif
             </div>
         </div>
     </div>
+    </div>
 
     <!-- Modal Konfirmasi Hapus -->
-    <div id="deleteModal{{ $post->id }}" class="flex hidden fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50">
-        <div id="modalContent{{ $post->id }}" class="bg-white rounded-lg p-6 max-w-md w-full transition-all duration-300 transform" style="opacity: 0; transform: scale(0.95)">
+    <div id="deleteModal{{ $comment->id }}" class="flex hidden fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50">
+        <div id="modalContent{{ $comment->id }}" class="bg-white rounded-lg p-6 max-w-md w-full transition-all duration-300 transform" style="opacity: 0; transform: scale(0.95)">
             <h2 class="text-xl font-bold mb-4">Konfirmasi Hapus</h2>
             <p>Apakah Anda yakin ingin menghapus postingan ini?</p>
             <div class="mt-6 flex justify-end">
-                <button type="button" class="px-4 py-2 bg-gray-300 text-gray-700 rounded mr-2" onclick="closeModal('deleteModal{{ $post->id }}')">Batal</button>
-                <form id="deleteForm{{ $post->id }}" action="{{ route('posts.destroy', $post->id) }}" method="POST" style="display:inline;">
+                <button type="button" class="px-4 py-2 bg-gray-300 text-gray-700 rounded mr-2" onclick="closeModal('deleteModal{{ $comment->id }}')">Batal</button>
+                <form id="deleteForm{{ $comment->id }}" action="{{ route('posts.destroy', $comment->id) }}" method="POST" style="display:inline;">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded">Hapus</button>
@@ -103,7 +76,6 @@ $postData = $postModel->get_posts();
             </div>
         </div>
     </div>
-@endforeach
 
 <!-- Modal Edit -->
 <div id="editModal" class="hidden fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50">
@@ -112,18 +84,12 @@ $postData = $postModel->get_posts();
         <div class="flex items-center justify-between border-b px-6 py-3">
             <button type="button" onclick="closeEditModal()"
                 class="text-lg font-semibold text-gray-700 cursor-pointer">Cancel</button>
-            <span class="font-bold text-lg">Edit Post</span>
+            <span class="font-bold text-lg">Edit Comment</span>
             <button type="submit" form="editForm"
                 class="text-blue-500 font-semibold text-lg cursor-pointer">Done</button>
         </div>
         <!-- Content -->
         <div class="flex flex-row h-[400px]">
-            <!-- Left: Image -->
-            <div class="flex-1 flex flex-col items-center bg-gray-100 rounded-bl-[20px] p-4">
-                <img id="editImagePreview" src="" alt="Post image"
-                    class="w-full h-[220px] object-cover rounded-lg mb-4" />
-                <div id="editImageAlert" class="text-red-500 text-sm mt-2" style="display:none;"></div>
-            </div>
             <!-- Right: User, Textarea -->
             <div class="flex-1 flex flex-col px-6 py-4">
                 <div class="flex items-center gap-3 mb-2">
@@ -134,9 +100,9 @@ $postData = $postModel->get_posts();
                 <form id="editForm" method="POST" enctype="multipart/form-data" class="flex-1 flex flex-col">
                     @csrf
                     @method('PUT')
-                    <textarea name="content" id="editContent" maxlength="2200"
+                    <textarea name="comment" id="editContent" maxlength="2200"
                         class="flex-1 w-full border-none outline-none resize-none text-base font-normal bg-transparent"
-                        placeholder="Edit your post..."></textarea>
+                        placeholder="Edit your comments..."></textarea>
                 </form>
             </div>
         </div>
@@ -150,11 +116,6 @@ $postData = $postModel->get_posts();
                         <i class="fa-solid fa-trash-can cursor-pointer"></i>
                     </button>
                 </form>
-                <button type="button" title="Edit Image" class="text-2xl text-gray-600 hover:text-blue-500"
-                    onclick="document.getElementById('editImageInput').click();">
-                    <i class="fa-solid fa-pen-to-square cursor-pointer"></i>
-                </button>
-                <input type="file" id="editImageInput" name="image" accept="image/*" class="hidden" form="editForm" />
             </div>
             <div class="flex items-center gap-2">
                 <img src="{{ asset('img/QuackIcon.png') }}" alt="Quack" class="h-6 w-6 cursor-pointer" />

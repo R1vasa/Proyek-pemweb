@@ -7,7 +7,6 @@ $userData = $userModel->get_user();
     <div class="bg-white rounded-b-md shadow p-6 border border-gray-200 mb-5">
         <h2 class="text-lg font-semibold mb-3 font-poppins">Topics you might like</h2>
         <div class="mb-2 text-blue-500">#Brainrot</div>
-        <img src="img/BomCroc.jpg" alt="Topic Image" class="w-full rounded-lg mt-2 mb-2 object-cover" />
     </div>
     <div class="bg-white rounded-t shadow p-6 border border-gray-200">
         <h2 class="text-lg font-semibold mb-3 font-poppins">Friends you might know</h2>
