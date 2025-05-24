@@ -10,8 +10,7 @@ $postData = $postModel->get_posts();
 ?>
 
 @foreach ($postData as $post)
-    <div
-        class="bg-white border mx-auto max-w-[650px] w-[70%] p-5 relative border-gray-300 flex-shrink-0 flex-grow-0 mb-6">
+    <div class="bg-white border mx-auto max-w-[650px] w-[70%] p-5 relative border-gray-300 flex-shrink-0 flex-grow-0 mb-6">
         <div class="flex justify-between">
             <div class="flex flex-row">
                 <div>
@@ -27,34 +26,39 @@ $postData = $postModel->get_posts();
             <!-- Dropdown Button -->
             <div class="relative">
                 <button type="button" class="text-xl cursor-pointer px-2"
-                    onclick="toggleDropdown('dropdown{{ $post->id }}', event)" aria-haspopup="true"
-                    aria-expanded="false">
+                    onclick="toggleDropdown('dropdown{{ $post->id }}', event)" aria-haspopup="true" aria-expanded="false">
                     •••
                 </button>
                 <div id="dropdown{{ $post->id }}"
                     class="dropdown-content absolute right-0 mt-2 min-w-[150px] bg-white border border-gray-200 rounded-lg shadow-lg z-50"
                     style="display:none" onclick="event.stopPropagation()">
-                    <!-- Edit Post Option -->
-                    <button type="button"
-                        class="w-full flex items-center gap-2 px-4 py-2 text-sm text-blue-600 hover:bg-blue-50 transition rounded-t"
-                        onclick="event.stopPropagation(); openEditModal({{ $post->id }}, '{{ addslashes(e($post->content)) }}', '{{ asset('storage/' . ($post->img_content ?? '')) }}')">
-                        <i class="fa-solid fa-pen-to-square"></i>
-                        Edit Post
-                    </button>
-                    <!-- Divider -->
-                    <div class="border-t border-gray-100"></div>
-                    <!-- Delete Post Option -->
-                    <form id="deleteForm{{ $post->id }}" action="{{ route('posts.destroy', $post->id) }}"
-                        method="POST" style="display:inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit"
+                    <!-- Edit Post Option (Only for Post Owner) -->
+                    @if($post->user_id === Auth::id())
+                        <button type="button"
+                            class="w-full flex items-center gap-2 px-4 py-2 text-sm text-blue-600 hover:bg-blue-50 transition rounded-t"
+                            onclick="event.stopPropagation(); openEditModal({{ $post->id }}, '{{ addslashes(e($post->content)) }}', '{{ asset('storage/' . ($post->img_content ?? '')) }}')">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                            Edit Post
+                        </button>
+                        <!-- Delete Post Option (Only for Post Owner) -->
+                        <button type="button"
                             class="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition rounded-b"
-                            title="Delete">
+                            onclick="event.stopPropagation(); openModal('deleteModal{{ $post->id }}')">
                             <i class="fa-solid fa-trash-can cursor-pointer"></i>
                             Delete Post
                         </button>
-                    </form>
+                    @endif
+                    <!-- Divider -->
+                    <div class="border-t border-gray-100"></div>
+                    <!-- Delete Post Option (Only for Admin) -->
+                    @if(Auth::user()->role === 'admin' && $post->user_id !== Auth::id())
+                        <button type="button"
+                            class="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition rounded-b"
+                            onclick="event.stopPropagation(); openModal('deleteModal{{ $post->id }}')">
+                            <i class="fa-solid fa-trash-can cursor-pointer"></i>
+                            Delete Post
+                        </button>
+                    @endif
                 </div>
             </div>
         </div>
@@ -76,14 +80,29 @@ $postData = $postModel->get_posts();
             </div>
             <div class="flex items-center gap-4">
                 <span class="material-symbols-outlined text-2xl text-gray-700 cursor-pointer">mode_comment</span>
-                <span
-                    class="material-symbols-outlined text-2xl text-gray-700 cursor-pointer bookmark-icon">bookmark</span>
+                <span class="material-symbols-outlined text-2xl text-gray-700 cursor-pointer bookmark-icon">bookmark</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Konfirmasi Hapus -->
+    <div id="deleteModal{{ $post->id }}" class="flex hidden fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50">
+        <div id="modalContent{{ $post->id }}" class="bg-white rounded-lg p-6 max-w-md w-full transition-all duration-300 transform" style="opacity: 0; transform: scale(0.95)">
+            <h2 class="text-xl font-bold mb-4">Konfirmasi Hapus</h2>
+            <p>Apakah Anda yakin ingin menghapus postingan ini?</p>
+            <div class="mt-6 flex justify-end">
+                <button type="button" class="px-4 py-2 bg-gray-300 text-gray-700 rounded mr-2" onclick="closeModal('deleteModal{{ $post->id }}')">Batal</button>
+                <form id="deleteForm{{ $post->id }}" action="{{ route('posts.destroy', $post->id) }}" method="POST" style="display:inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded">Hapus</button>
+                </form>
             </div>
         </div>
     </div>
 @endforeach
 
-<!-- Modal -->
+<!-- Modal Edit -->
 <div id="editModal" class="hidden fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50">
     <div class="bg-white rounded-[20px] shadow-lg w-full max-w-3xl flex flex-col">
         <!-- Header -->
@@ -132,8 +151,7 @@ $postData = $postModel->get_posts();
                     onclick="document.getElementById('editImageInput').click();">
                     <i class="fa-solid fa-pen-to-square cursor-pointer"></i>
                 </button>
-                <input type="file" id="editImageInput" name="image" accept="image/*" class="hidden"
-                    form="editForm" />
+                <input type="file" id="editImageInput" name="image" accept="image/*" class="hidden" form="editForm" />
             </div>
             <div class="flex items-center gap-2">
                 <img src="{{ asset('img/QuackIcon.png') }}" alt="Quack" class="h-6 w-6 cursor-pointer" />
@@ -142,6 +160,7 @@ $postData = $postModel->get_posts();
         </div>
     </div>
 </div>
+
 <script>
     window.LIKE_ICON = "{{ asset('img/QuackIcon.png') }}";
     window.LIKE_CLICKED_ICON = "{{ asset('img/QuackClicked.jpg') }}";
@@ -183,4 +202,123 @@ $postData = $postModel->get_posts();
             }
         }
     }
+
+    // --- Modal Functions ---
+    function openModal(modalId) {
+        const modal = document.getElementById(modalId);
+        const modalContent = document.getElementById('modalContent' + modalId.replace('deleteModal', ''));
+
+        modal.classList.remove('hidden');
+
+        // Trigger reflow before animating
+        modalContent.style.opacity = "0";
+        modalContent.style.transform = "scale(0.95)";
+        void modalContent.offsetWidth;
+
+        modalContent.style.opacity = "1";
+        modalContent.style.transform = "scale(1)";
+    }
+
+    function closeModal(modalId) {
+        const modalContent = document.getElementById('modalContent' + modalId.replace('deleteModal', ''));
+
+        modalContent.style.opacity = "0";
+        modalContent.style.transform = "scale(0.95)";
+
+        // Wait for animation to finish before hiding modal
+        setTimeout(() => {
+            document.getElementById(modalId).classList.add('hidden');
+        }, 300); // Match with duration in Tailwind: 300ms
+    }
+
+    // Close modal if clicking outside
+    window.onclick = function(event) {
+        const modals = document.querySelectorAll('.modal');
+        modals.forEach(modal => {
+            if (event.target === modal) {
+                closeModal(modal.id);
+            }
+        });
+    }
+
+    // --- Edit Modal Functions ---
+    function openEditModal(postId, content, imageUrl) {
+        const modal = document.getElementById('editModal');
+        const form = document.getElementById('editForm');
+        
+        // Set form action
+        form.action = `/posts/${postId}`;
+        
+        // Set content
+        document.getElementById('editContent').value = content;
+        
+        // Set image preview
+        const imgPreview = document.getElementById('editImagePreview');
+        if (imageUrl) {
+            imgPreview.src = imageUrl;
+        } else {
+            imgPreview.src = ''; // Clear if no image
+        }
+        
+        // Show modal
+        modal.classList.remove('hidden');
+    }
+
+    function closeEditModal() {
+        document.getElementById('editModal').classList.add('hidden');
+    }
+
+    // Initialize character counter
+    document.getElementById('editContent').addEventListener('input', function() {
+        const charCount = this.value.length;
+        document.getElementById('charCount').textContent = `${charCount}/2200`;
+    });
+
+    // Handle image selection for edit
+    document.getElementById('editImageInput').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        const preview = document.getElementById('editImagePreview');
+        const alert = document.getElementById('editImageAlert');
+        
+        if (file) {
+            if (file.size > 2 * 1024 * 1024) { // 2MB limit
+                alert.textContent = 'Ukuran file terlalu besar (maks 2MB)';
+                alert.style.display = 'block';
+                e.target.value = ''; // Clear the input
+                return;
+            }
+            
+            if (!file.type.match('image.*')) {
+                alert.textContent = 'Hanya file gambar yang diizinkan';
+                alert.style.display = 'block';
+                e.target.value = ''; // Clear the input
+                return;
+            }
+            
+            alert.style.display = 'none';
+            preview.src = URL.createObjectURL(file);
+        }
+    });
 </script>
+
+<style>
+    .modal {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 50;
+    }
+
+    .modal-content {
+        background-color: white;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+</style>

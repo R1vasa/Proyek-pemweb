@@ -47,19 +47,20 @@ class PostsController extends Controller
     }
 
     public function destroy($id)
-    {
-        $post = Post::findOrFail($id);
-        if ($post->user_id !== Auth::id()) {
-            abort(403, 'Unauthorized action.');
-        }
-        if ($post->img_content && Storage::disk('public')->exists($post->img_content)) {
-            Storage::disk('public')->delete($post->img_content);
-        }
-
-        $post->delete();
-
-        return redirect()->back()->with('success', 'Post deleted!');
+{
+    $post = Post::findOrFail($id);
+    if (Auth::user()->role !== 'admin' && $post->user_id !== Auth::id()) {
+        abort(403, 'Unauthorized action.');
     }
+    if ($post->img_content && Storage::disk('public')->exists($post->img_content)) {
+        Storage::disk('public')->delete($post->img_content);
+    }
+
+    $post->delete();
+
+    return redirect()->back()->with('success', 'Post deleted!');
+}
+
 
 
     public function update(Request $request, $id)
