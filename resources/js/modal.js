@@ -48,6 +48,7 @@
                 });
             }
 
+
             // Bookmark icon animation and color
             document.querySelectorAll('.bookmark-icon').forEach(function(icon) {
                 icon.addEventListener('click', function() {
@@ -58,11 +59,66 @@
                 });
             });
 
+            
             // Format all like counts on page load
             document.querySelectorAll('[class^="like-count-"]').forEach(span => {
                 const num = parseInt(span.textContent.replace(/\D/g, ''), 10);
                 if (!isNaN(num)) span.textContent = formatLikeCount(num);
             });
+
+
+            // --- Comment Counter Handler ---
+document.querySelectorAll('.comment-btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const postId = this.dataset.post;
+        const countSpan = document.querySelector('.comment-count-' + postId);
+        let currentCount = parseInt(countSpan.textContent.replace(/\D/g, '')) || 0;
+
+        // Contoh: AJAX untuk submit komentar
+        fetch(`/posts/${postId}/comment`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': window.CSRF_TOKEN,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                comment: document.getElementById('commentContent-' + postId).value
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            // Update counter dari response server
+            countSpan.textContent = formatLikeCount(data.comments_count ?? (currentCount + 1));
+            // (Opsional) Tambahkan komentar ke DOM
+        });
+    });
+});
+
+// Untuk hapus komentar (misal tombol .delete-comment-btn)
+document.querySelectorAll('.delete-comment-btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const postId = this.dataset.post;
+        const commentId = this.dataset.comment;
+        const countSpan = document.querySelector('.comment-count-' + postId);
+        let currentCount = parseInt(countSpan.textContent.replace(/\D/g, '')) || 0;
+
+        fetch(`/comments/${commentId}`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': window.CSRF_TOKEN,
+                'Accept': 'application/json'
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            countSpan.textContent = formatLikeCount(data.comments_count ?? Math.max(0, currentCount - 1));
+            // (Opsional) Hapus komentar dari DOM
+        });
+    });
+});
 
             // Like button handler
             document.querySelectorAll('.like-btn').forEach(btn => {
