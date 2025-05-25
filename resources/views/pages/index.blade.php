@@ -22,22 +22,26 @@ $postData = $PostModel->get_posts();
                 <span class="text-lg font-semibold text-gray-600 font-[Poppins,Arial,sans-serif]">make a new post</span>
             </div>
             <form action="{{ url('/posts') }}" method="POST" enctype="multipart/form-data"
-                class="flex items-center gap-4 mt-0">
+                class="flex items-start gap-4 mt-0 relative">
                 @csrf
                 <!-- Profile image -->
                 <img src="{{ asset('storage/' . Auth::user()->profile) }}" alt="Profile"
-                    class="w-14 h-14 rounded-full object-cover shrink-0" />
+                    class="w-14 h-14 rounded-full object-cover shrink-0 mt-2" />
                 <!-- Textarea and image controls -->
-                <div class="relative flex-1 flex flex-col">
+                <div class="relative flex-1">
                     <textarea name="content"
                         class="w-full border-none outline-none rounded-2xl px-6 py-4 text-base bg-white font-[Poppins,Arial,sans-serif] pr-12 resize-none no-scrollbar"
-                        placeholder="Quack!!!" maxlength="2200" rows="3" style="overflow: auto; scrollbar-width: none;"></textarea>
-                    <label for="image-upload" class="absolute right-12 top-1/2 -translate-y-1/2 cursor-pointer">
+                        placeholder="Quack!!!" maxlength="2200" rows="1" style="overflow: auto; scrollbar-width: none;"></textarea>
+
+                    <!-- Image icon -->
+                    <label for="image-upload" class="absolute right-4 top-4 cursor-pointer">
                         <i class="fa-regular fa-image text-2xl text-gray-400 hover:text-gray-600"></i>
                     </label>
+
+                    <!-- Remove icon -->
                     <button type="button" id="remove-image-btn"
-                        class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-red-500 text-2xl"
-                        style="display:none;" tabindex="-1" aria-label="Remove image">
+                        class="absolute right-4 top-18 text-gray-400 hover:text-red-500 text-2xl hidden" tabindex="-1"
+                        aria-label="Remove image">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
                     <input id="image-upload" type="file" name="image" accept="image/*" class="hidden" />

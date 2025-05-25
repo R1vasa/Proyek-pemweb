@@ -23,7 +23,8 @@ class CommentController extends Controller
             'comment' => $request->comment,
         ]);
 
-        return redirect()->back()->with('success', 'Comment added!');
+        return redirect()->route('post.comments', ['id' => $request->post_id])
+                     ->with('success', 'Comment added!');
     }
 
     // Update comment

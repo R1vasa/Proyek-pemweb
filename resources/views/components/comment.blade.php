@@ -6,7 +6,7 @@ use Illuminate\View\Component;
 use Illuminate\Support\Facades\Auth;
 ?>
 
-<div class="bg-white border mx-auto w-[70%] p-5 relative border-gray-300 flex-shrink-0 flex-grow-0 mb-0">
+<div class="bg-white border mx-auto w-[100%] p-5 relative border-gray-300 flex-shrink-0 flex-grow-0 mb-0">
     <div class="flex justify-between">
         <div class="flex flex-row">
             <div>
@@ -15,7 +15,8 @@ use Illuminate\Support\Facades\Auth;
             </div>
             <div class="px-4">
                 <h3 class="font-bold">{{ $comment->user->username }}</h3>
-                <span class="text-xs text-gray-500">{{ $comment->created_at ? $comment->created_at->diffForHumans() : '' }}</span>
+                <span
+                    class="text-xs text-gray-500">{{ $comment->created_at ? $comment->created_at->diffForHumans() : '' }}</span>
 
                 <p class="text-sm text-justify">{{ $comment->comment }}</p>
             </div>
@@ -23,39 +24,40 @@ use Illuminate\Support\Facades\Auth;
         <!-- Dropdown Button -->
         <div class="relative">
             <button type="button" class="text-xl cursor-pointer px-2"
-                onclick="toggleDropdown('dropdown{{ $comment->id }}', event)" aria-haspopup="true" aria-expanded="false">
+                onclick="toggleDropdown('dropdown{{ $comment->id }}', event)" aria-haspopup="true"
+                aria-expanded="false">
                 •••
             </button>
             <div id="dropdown{{ $comment->id }}"
                 class="dropdown-content absolute right-0 mt-2 min-w-[150px] bg-white border border-gray-200 rounded-lg shadow-lg z-50"
                 style="display:none" onclick="event.stopPropagation()">
                 <!-- Edit Post Option (Only for Post Owner) -->
-                @if($comment->user_id === Auth::id())
-                <button type="button"
-                    class="w-full flex items-center gap-2 px-4 py-2 text-sm text-blue-600 hover:bg-blue-50 transition rounded-t"
-                    onclick="event.stopPropagation(); openEditModal({{ $comment->id }}, '{{ addslashes(e($comment->comment)) }}')">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                    Edit Komen
-                </button>
+                @if ($comment->user_id === Auth::id())
+                    <button type="button"
+                        class="w-full flex items-center gap-2 px-4 py-2 text-sm text-blue-600 hover:bg-blue-50 transition rounded-t"
+                        onclick="event.stopPropagation(); openEditModal({{ $comment->id }}, '{{ addslashes(e($comment->comment)) }}')">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        Edit Komen
+                    </button>
 
-                <!-- Delete Post Option (Only for Post Owner) -->
-                <button type="button"
-                    class="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition rounded-b"
-                    onclick="event.stopPropagation(); openModal('deleteModal{{ $comment->id }}')">
-                    <i class="fa-solid fa-trash-can cursor-pointer"></i>
-                    Hapus Komen
-                </button>
+                    <!-- Delete Post Option (Only for Post Owner) -->
+                    <button type="button"
+                        class="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition rounded-b"
+                        onclick="event.stopPropagation(); openModal('deleteModal{{ $comment->id }}')">
+                        <i class="fa-solid fa-trash-can cursor-pointer"></i>
+                        Hapus Komen
+                    </button>
                 @endif
                 <!-- Divider -->
                 <div class="border-t border-gray-100"></div>
                 <!-- Delete Post Option (Only for Admin) -->
-                @if(Auth::user()->role === 'admin' && $comment->user_id !== Auth::id())
-                <button type="button"
-                    class="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition rounded-b"
-                    onclick="event.stopPropagation(); openModal('deleteModal{{ $comment->id }}')">
-                    <i class="fa-solid fa-trash-can cursor-pointer"></i>
-                    Delete Post
-                </button>
+                @if (Auth::user()->role === 'admin' && $comment->user_id !== Auth::id())
+                    <button type="button"
+                        class="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition rounded-b"
+                        onclick="event.stopPropagation(); openModal('deleteModal{{ $comment->id }}')">
+                        <i class="fa-solid fa-trash-can cursor-pointer"></i>
+                        Delete Post
+                    </button>
                 @endif
             </div>
         </div>
@@ -63,13 +65,18 @@ use Illuminate\Support\Facades\Auth;
 </div>
 
 <!-- Modal Konfirmasi Hapus -->
-<div id="deleteModal{{ $comment->id }}" class="flex hidden fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50">
-    <div id="modalContent{{ $comment->id }}" class="bg-white rounded-lg p-6 max-w-md w-full transition-all duration-300 transform" style="opacity: 0; transform: scale(0.95)">
+<div id="deleteModal{{ $comment->id }}"
+    class="flex hidden fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50">
+    <div id="modalContent{{ $comment->id }}"
+        class="bg-white rounded-lg p-6 max-w-md w-full transition-all duration-300 transform"
+        style="opacity: 0; transform: scale(0.95)">
         <h2 class="text-xl font-bold mb-4">Konfirmasi Hapus</h2>
         <p>Apakah Anda yakin ingin menghapus postingan ini?</p>
         <div class="mt-6 flex justify-end">
-            <button type="button" class="px-4 py-2 bg-gray-300 text-gray-700 rounded mr-2" onclick="closeModal('deleteModal{{ $comment->id }}')">Batal</button>
-            <form id="deleteForm{{ $comment->id }}" action="{{ route('comments.destroy', $comment->id) }}" method="POST" style="display:inline;">
+            <button type="button" class="px-4 py-2 bg-gray-300 text-gray-700 rounded mr-2"
+                onclick="closeModal('deleteModal{{ $comment->id }}')">Batal</button>
+            <form id="deleteForm{{ $comment->id }}" action="{{ route('comments.destroy', $comment->id) }}"
+                method="POST" style="display:inline;">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded">Hapus</button>

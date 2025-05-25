@@ -12,8 +12,8 @@
     <x-sidebar />
 
     {{-- feed --}}
-    <div class="flex-1 max-w- border-r border-gray-300 bg-white flex flex-col overflow-y-auto h-screen no-scrollbar">
-        <div class="bg-white border mx-auto w-[70%] p-5 relative border-gray-300 flex-shrink-0 flex-grow-0 mb-0">
+    <div class="flex-1 border-r border-gray-300 bg-white flex flex-col overflow-y-auto h-screen no-scrollbar">
+        <div class="bg-white border mx-auto w-[100%] p-5 relative border-gray-300 flex-shrink-0 flex-grow-0 mb-0">
             <div class="flex justify-between">
                 <div class="flex flex-row">
                     <div>
@@ -22,7 +22,8 @@
                     </div>
                     <div class="px-4">
                         <h3 class="font-bold">{{ $post->user->username }}</h3>
-                        <span class="text-xs text-gray-500">{{ $post->created_at ? $post->created_at->diffForHumans() : '' }}</span>
+                        <span
+                            class="text-xs text-gray-500">{{ $post->created_at ? $post->created_at->diffForHumans() : '' }}</span>
 
                         <p class="text-sm text-justify">{{ $post->content }}</p>
                     </div>
@@ -45,17 +46,19 @@
                         class="text-gray-500 text-sm font-medium ml-1 like-count-{{ $post->id }}">{{ $post->likes->count() ?? 0 }}</span>
                 </div>
                 <div class="flex items-center gap-4">
-                    <span class="material-symbols-outlined text-2xl text-gray-700 cursor-pointer bookmark-icon">bookmark</span>
+                    <span
+                        class="material-symbols-outlined text-2xl text-gray-700 cursor-pointer bookmark-icon">bookmark</span>
                 </div>
             </div>
         </div>
 
         <!-- WRITE COMMENTS-->
-        <div class="bg-yellow-300 px-6 py-4 w-[70%] mx-auto mt-[0]">
+        <div class="bg-yellow-300 px-6 py-4 w-[100%] mx-auto mt-[0]">
             <div class="mb-2">
                 <span class="text-lg font-semibold text-gray-600 font-[Poppins,Arial,sans-serif]">Leave a new comment</span>
             </div>
-            <form action="{{ route('comments.store', ['id' => $post->id]) }}" method="POST" enctype="multipart/form-data" class="flex items-center gap-4 mt-0">
+            <form action="{{ route('comments.store', ['id' => $post->id]) }}" method="POST" enctype="multipart/form-data"
+                class="flex items-center gap-4 mt-0">
                 @csrf
                 <input type="hidden" name="post_id" value="{{ $post->id }}">
                 <!-- Profile image -->
@@ -80,7 +83,7 @@
             <x-comment :comment="$comment" />
         @endforeach
     </div>
-        
+
     {{-- widget --}}
     <x-widget />
 
