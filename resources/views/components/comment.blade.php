@@ -6,6 +6,28 @@ use Illuminate\View\Component;
 use Illuminate\Support\Facades\Auth;
 ?>
 
+<style>
+    .modal {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 50;
+    }
+
+    .modal-content {
+        background-color: white;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
 <div class="bg-white border mx-auto w-[100%] p-5 relative border-gray-300 flex-shrink-0 flex-grow-0 mb-0">
     <div class="flex justify-between">
         <div class="flex flex-row">
@@ -35,7 +57,7 @@ use Illuminate\Support\Facades\Auth;
                 @if ($comment->user_id === Auth::id())
                     <button type="button"
                         class="w-full flex items-center gap-2 px-4 py-2 text-sm text-blue-600 hover:bg-blue-50 transition rounded-t"
-                        onclick="event.stopPropagation(); openEditModal({{ $comment->id }}, '{{ addslashes(e($comment->comment)) }}')">
+                        onclick="event.stopPropagation(); openEditModal({{ $comment->id }}, '{{ addslashes(e($comment->comment)) }}', '{{ $comment->image_url ?? '' }}')">
                         <i class="fa-solid fa-pen-to-square"></i>
                         Edit Komen
                     </button>
@@ -66,7 +88,7 @@ use Illuminate\Support\Facades\Auth;
 
 <!-- Modal Konfirmasi Hapus -->
 <div id="deleteModal{{ $comment->id }}"
-    class="flex hidden fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50">
+    class="flex hidden fixed inset-0 backdrop-blur-sm items-center justify-center z-50">
     <div id="modalContent{{ $comment->id }}"
         class="bg-white rounded-lg p-6 max-w-md w-full transition-all duration-300 transform"
         style="opacity: 0; transform: scale(0.95)">
@@ -93,8 +115,8 @@ use Illuminate\Support\Facades\Auth;
             <button type="button" onclick="closeEditModal()"
                 class="text-lg font-semibold text-gray-700 cursor-pointer">Cancel</button>
             <span class="font-bold text-lg">Edit comment</span>
-            <button type="submit" form="editForm"
-                class="text-blue-500 font-semibold text-lg cursor-pointer">Done</button>
+            <button type="submit" form="editForm" class="text-blue-500 font-semibold text-lg cursor-pointer"
+                onclick="console.log('Submitting form...')">Done</button>
         </div>
         <!-- Content -->
         <div class="flex flex-row h-[400px]">
@@ -105,7 +127,8 @@ use Illuminate\Support\Facades\Auth;
                         class="w-10 h-10 rounded-full object-cover" />
                     <span class="font-bold">{{ Auth::user()->username }}</span>
                 </div>
-                <form id="editForm" method="POST" enctype="multipart/form-data" class="flex-1 flex flex-col">
+                <form id="editForm" method="POST" enctype="multipart/form-data"
+                    class="flex-1 flex flex-col"action="{{ route('comments.update', ['comment' => 0]) }}">
                     @csrf
                     @method('PUT')
                     <textarea name="comment" id="editContent" maxlength="2200"
@@ -302,25 +325,3 @@ use Illuminate\Support\Facades\Auth;
         });
     }
 </script>
-
-<style>
-    .modal {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 50;
-    }
-
-    .modal-content {
-        background-color: white;
-        border-radius: 8px;
-        padding: 20px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-</style>
