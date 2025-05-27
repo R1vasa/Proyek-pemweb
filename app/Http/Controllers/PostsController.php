@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Like;
+use App\Models\User;
 
 class PostsController extends Controller
 {
@@ -122,10 +123,16 @@ class PostsController extends Controller
         return $post;
     }
 
-    public function myPosts()
+    public function userPosts($username)
     {
-        $posts = Post::with('user', 'likes')->where('user_id', Auth::id())->latest()->get();
-        return view('pages.profile', compact('posts'));
+    $user = User::where('username', $username)->firstOrFail();
+    $posts = $user->posts()->latest()->get();
+    $postCount = $user->posts()->count();
+
+    // Cek apakah profil ini milik kita sendiri
+    $isOwner = Auth::check() && Auth::user()->id === $user->id;
+
+    return view('pages.profile', compact('user', 'posts', 'postCount', 'isOwner'));
     }
 
     public function showWithComments($id)

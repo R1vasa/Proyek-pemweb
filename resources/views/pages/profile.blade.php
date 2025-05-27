@@ -11,12 +11,14 @@
         {{-- Konten tengah --}}
         <div class="flex-1 max-w- border-r border-gray-300 bg-white flex flex-col overflow-y-auto h-screen no-scrollbar">
             <div class="flex flex-col items-center py-8">
-                <img src="{{ asset('storage/' . Auth::user()->profile) }}" alt="Profile"
+                <img src="{{ asset('storage/' . $user->profile) }}" alt="Profile"
                     class="w-28 h-28 rounded-full object-cover" />
-                <h2 class="text-xl font-bold mt-4">{{ Auth::user()->username }}</h2>
+                <h2 class="text-xl font-bold mt-4">{{ $user->username }}</h2>
 
                 <div class="flex gap-2 mt-4">
-                    <button onclick="toggleModal()" class="border px-4 py-1 rounded-full">Edit Profile</button>
+                    @if ($isOwner)
+                        <button onclick="toggleModal()" class="border px-4 py-1 rounded-full">Edit Profile</button>
+                    @endif
                     <button class="border px-4 py-1 rounded-full">Share Profile</button>
                 </div>
 
@@ -35,7 +37,7 @@
                     </div>
                 </div>
 
-                <p class="mt-4 text-lg text-black-900">{{ Auth::user()->bio }} </p>
+                <p class="mt-4 text-lg text-black-900">{{ $user->bio }} </p>
             </div>
 
             {{-- Posts user --}}

@@ -14,9 +14,11 @@ $userData = $userModel->get_user();
             return $user->id !== Auth::id() && $user->role !== 'admin';
         })->shuffle()->take(3) as $user)
             <div class="flex items-center gap-3 mb-4">
-                <img src="{{ asset('storage/' . $user->profile) }}" alt="Profile"
-                    class="w-10 h-10 rounded-full object-cover" />
-                <span class="font-poppins text-base font-medium text-gray-900">{{ $user->username }}</span>
+                <a href="{{ route('profile', ['username' => $user->username]) }}" class="flex items-center gap-3">
+                    <img src="{{ asset('storage/' . $user->profile) }}" alt="Profile"
+                        class="w-10 h-10 rounded-full object-cover" />
+                    <span class="font-poppins text-base font-medium text-gray-900">{{ $user->username }}</span>
+                </a>
             </div>
         @endforeach
     </div>

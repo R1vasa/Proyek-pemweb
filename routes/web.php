@@ -51,8 +51,7 @@ Route::middleware(['auth', CheckProfileComplete::class])->group(function () {
 
 
     // Profile
-    Route::get('/profile', [PostsController::class, 'myPosts'])->name('profile');
-    Route::get('/my-posts', [PostsController::class, 'myPosts']);
+    Route::get('/{username}', [PostsController::class, 'userPosts'])->name('profile');
     Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile/delete', [ProfileController::class, 'destroy'])->name('profile.delete');
 
