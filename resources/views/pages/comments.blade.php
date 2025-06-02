@@ -68,7 +68,7 @@
                 <div class="relative flex-1 flex flex-col">
                     <textarea name="comment"
                         class="w-full border-none outline-none rounded-2xl px-6 py-4 text-base bg-white font-[Poppins,Arial,sans-serif] pr-12 resize-none no-scrollbar"
-                        placeholder="nice Quack!!" maxlength="2200" rows="3" style="overflow: auto; scrollbar-width: none;"></textarea>
+                        placeholder="nice Quack!!" maxlength="2200" rows="1" style="overflow: auto; scrollbar-width: none;"></textarea>
                 </div>
                 <!-- Post button -->
                 <button type="submit"

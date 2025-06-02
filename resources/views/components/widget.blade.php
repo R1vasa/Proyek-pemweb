@@ -11,7 +11,7 @@ $userData = $userModel->get_user();
     <div class="bg-white rounded-t shadow p-6 border border-gray-200">
         <h2 class="text-lg font-semibold mb-3 font-poppins">Friends you might know</h2>
         @foreach ($userData->filter(function ($user) {
-            return $user->id !== Auth::id() && $user->role !== 'admin';
+            return $user->id !== Auth::id() && $user->role !== 'admin' && $user->role !== 'banned';
         })->shuffle()->take(3) as $user)
             <div class="flex items-center gap-3 mb-4">
                 <a href="{{ route('profile', ['username' => $user->username]) }}" class="flex items-center gap-3">
